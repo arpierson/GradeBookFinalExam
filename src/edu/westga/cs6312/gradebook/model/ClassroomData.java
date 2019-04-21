@@ -80,4 +80,16 @@ public class ClassroomData {
 		}
 		return pointsPossible;
 	}
+	
+	/**
+	 * Getter for total points possible for all project assignments
+	 * @return total points possible for all project assignments
+	 */
+	public double getTotalProjectPointsPossible() {
+		double pointsPossible = 0;
+		for (Double current : this.projectAssignmentList) {
+			pointsPossible += current;
+		}
+		return pointsPossible;
+	}
 }
