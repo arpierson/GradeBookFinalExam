@@ -129,4 +129,16 @@ public class Student {
 		}
 		return totalPoints;
 	}
+	
+	/**
+	 * Returns total points earned on all project grades
+	 * @return total points earned on all project grades
+	 */
+	public double getTotalProjectPointsEarned() {
+		double totalPoints = 0;
+		for (Double current : this.projectGrades.getPointsEarnedList()) {
+			totalPoints += current;
+		}
+		return totalPoints;
+	}
 }
