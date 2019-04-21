@@ -39,4 +39,16 @@ public abstract class StudentGradeBook {
 	public ArrayList<Double> getPointsEarnedList() {
 		return this.pointsEarnedList;
 	}
+	
+	/**
+	 * Getter method that returns the sum total of all points earned for the assignments in the ArrayList
+	 * @return	double	sum total of all points earned for the assignments in the ArrayList
+	 */
+	public double getTotalPointsEarned() {
+		double totalPointsPossible = 0;
+		for (Double current : this.pointsEarnedList) {
+			totalPointsPossible += current;
+		}
+		return totalPointsPossible;
+	}
 }
