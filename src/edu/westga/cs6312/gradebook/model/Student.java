@@ -1,5 +1,7 @@
 package edu.westga.cs6312.gradebook.model;
 
+import java.util.ArrayList;
+
 /**
  * Class that creates a new student object
  * @author Allen Pierson
@@ -64,5 +66,13 @@ public class Student {
 					break;
 			default: throw new IllegalArgumentException("Grade type (lab, project, or test) not specified");
 		}
+	}
+	
+	/**
+	 * Gets student's list of lab grades
+	 * @return	ArrayList of lab grades
+	 */
+	public ArrayList<Double> getLabGradeList() {
+		return this.labGrades.getPointsEarnedList();
 	}
 }
