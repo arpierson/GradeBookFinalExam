@@ -130,7 +130,14 @@ public class ClassroomData {
 		this.studentList.add(new Student(idNumber, firstName, lastName));
 	}
 	
-
+	/**
+	 * Returns the student roster list
+	 * @return the student roster list
+	 */
+	public ArrayList<Student> getStudentList() {
+		return this.studentList;
+	}
+	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
 		return Double.parseDouble(averageString);
