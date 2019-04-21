@@ -154,9 +154,16 @@ public class ClassroomData {
 	}
 	
 	/**
-	public double getStudentLabAverage() {
-		
-	}**/
+	 * Returns straight average of lab grades for a student
+	 * @param theStudent	The student whose average is being calculated
+	 * @return	straight average of lab grades for a student
+	 */
+	public double getStudentLabAverage(Student theStudent) {
+		if (theStudent == null) {
+			throw new IllegalArgumentException("Student cannot be null");
+		}
+		return this.roundAverage(theStudent.getTotalLabPointsEarned() / this.getTotalLabPointsPossible());
+	}
 	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
