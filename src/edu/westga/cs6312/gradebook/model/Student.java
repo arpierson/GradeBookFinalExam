@@ -15,6 +15,7 @@ public class Student {
 	private int idNumber;
 	private String firstName;
 	private String lastName;
+	private ClassroomData classroom;
 	
 	/**
 	 * 3-parameter constructor to instantiate the instance variables
@@ -42,6 +43,7 @@ public class Student {
 		this.idNumber = idNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.classroom = new ClassroomData();
 	}
 	
 	@Override
@@ -90,5 +92,22 @@ public class Student {
 	 */
 	public ArrayList<Double> getTestGradeList() {
 		return this.testGrades.getPointsEarnedList();
+	}
+	
+	/**
+	 * Returns straight average of student's lab grades
+	 * @return straight average of student's lab grades
+	 */
+	public double getLabAverage() {
+		if (this.labGrades.getPointsEarnedList().size() != this.classroom.getLabAssignmentList().size()) {
+			throw new IllegalArgumentException("Student lab assignment list has incorrect number of grades entered");
+		} else {
+			return this.roundAverage(this.labGrades.getTotalPointsEarned() / this.classroom.getTotalLabPointsPossible());
+		}
+	}
+	
+	private double roundAverage(double average) {
+		String averageString = String.format("%2.1f", (average * 100));
+		return Double.parseDouble(averageString);
 	}
 }
