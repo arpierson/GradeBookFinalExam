@@ -141,4 +141,16 @@ public class Student {
 		}
 		return totalPoints;
 	}
+	
+	/**
+	 * Returns total points earned on all test grades
+	 * @return total points earned on all test grades
+	 */
+	public double getTotalTestPointsEarned() {
+		double totalPoints = 0;
+		for (Double current : this.testGrades.getPointsEarnedList()) {
+			totalPoints += current;
+		}
+		return totalPoints;
+	}
 }
