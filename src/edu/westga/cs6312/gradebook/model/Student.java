@@ -75,4 +75,20 @@ public class Student {
 	public ArrayList<Double> getLabGradeList() {
 		return this.labGrades.getPointsEarnedList();
 	}
+	
+	/**
+	 * Gets student's list of project grades
+	 * @return	ArrayList of project grades
+	 */
+	public ArrayList<Double> getProjectGradeList() {
+		return this.projectGrades.getPointsEarnedList();
+	}
+	
+	/**
+	 * Gets student's list of test grades
+	 * @return	ArrayList of test grades
+	 */
+	public ArrayList<Double> getTestGradeList() {
+		return this.testGrades.getPointsEarnedList();
+	}
 }
