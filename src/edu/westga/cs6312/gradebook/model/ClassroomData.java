@@ -162,6 +162,9 @@ public class ClassroomData {
 		if (theStudent == null) {
 			throw new IllegalArgumentException("Student cannot be null");
 		}
+		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+			throw new IllegalArgumentException("Student lab grade list contains incorrect amount of grades earned");
+		}
 		return this.roundAverage(theStudent.getTotalLabPointsEarned() / this.getTotalLabPointsPossible());
 	}
 	
