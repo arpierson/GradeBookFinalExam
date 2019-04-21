@@ -12,6 +12,7 @@ public class ClassroomData {
 	private ArrayList<Double> labAssignmentList;
 	private ArrayList<Double> projectAssignmentList;
 	private ArrayList<Double> testAssignmentList;
+	private ArrayList<Student> studentList;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variables
@@ -20,6 +21,7 @@ public class ClassroomData {
 		this.labAssignmentList = new ArrayList<Double>();
 		this.projectAssignmentList = new ArrayList<Double>();
 		this.testAssignmentList = new ArrayList<Double>();
+		this.studentList = new ArrayList<Student>();
 	}
 	
 	/**
@@ -103,5 +105,34 @@ public class ClassroomData {
 			pointsPossible += current;
 		}
 		return pointsPossible;
+	}
+	
+	/**
+	 * Adds a new student to the class list
+	 * @param idNumber	student's ID number
+	 * @param firstName	student's first name
+	 * @param lastName	student's last name
+	 * 
+	 * Preconditions:	idNumber !< 0
+	 * 					firstName != null or empty string
+	 * 					lastName != null or empty string
+	 */
+	public void addStudent(int idNumber, String firstName, String lastName) {
+		if (idNumber < 0) {
+			throw new IllegalArgumentException("Student ID number cannot be less than 0");
+		}
+		if (firstName.equals(null) || firstName.equals("")) {
+			throw new IllegalArgumentException("Student first name cannot be empty");
+		}
+		if (lastName.equals(null) || lastName.equals("")) {
+			throw new IllegalArgumentException("Student last name cannot be empty");
+		}
+		this.studentList.add(new Student(idNumber, firstName, lastName));
+	}
+	
+
+	private double roundAverage(double average) {
+		String averageString = String.format("%2.1f", (average * 100));
+		return Double.parseDouble(averageString);
 	}
 }

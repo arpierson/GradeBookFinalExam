@@ -56,15 +56,15 @@ public class Student {
 	 * @param gradeTypeChoice	choice of which grade type (lab, project, or test)
 	 * @param pointsEarned	points earned on the assignment
 	 * 
-	 * Precondition:	gradeTypeChoice must be 1, 2, or 3
+	 * Precondition:	gradeTypeChoice must be 0, 1, or 2
 	 */
 	public void addGrade(int gradeTypeChoice, double pointsEarned) {
 		switch (gradeTypeChoice) {
-			case 1: this.labGrades.addGrade(pointsEarned);
+			case 0: this.labGrades.addGrade(pointsEarned);
 					break;
-			case 2: this.projectGrades.addGrade(pointsEarned);
+			case 1: this.projectGrades.addGrade(pointsEarned);
 					break;
-			case 3: this.testGrades.addGrade(pointsEarned);
+			case 2: this.testGrades.addGrade(pointsEarned);
 					break;
 			default: throw new IllegalArgumentException("Grade type (lab, project, or test) not specified");
 		}
@@ -92,22 +92,5 @@ public class Student {
 	 */
 	public ArrayList<Double> getTestGradeList() {
 		return this.testGrades.getPointsEarnedList();
-	}
-	
-	/**
-	 * Returns straight average of student's lab grades
-	 * @return straight average of student's lab grades
-	 */
-	public double getLabAverage() {
-		if (this.labGrades.getPointsEarnedList().size() != this.classroom.getLabAssignmentList().size()) {
-			throw new IllegalArgumentException("Student lab assignment list has incorrect number of grades entered");
-		} else {
-			return this.roundAverage(this.labGrades.getTotalPointsEarned() / this.classroom.getTotalLabPointsPossible());
-		}
-	}
-	
-	private double roundAverage(double average) {
-		String averageString = String.format("%2.1f", (average * 100));
-		return Double.parseDouble(averageString);
 	}
 }
