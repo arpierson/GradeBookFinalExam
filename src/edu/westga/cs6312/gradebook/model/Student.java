@@ -117,4 +117,16 @@ public class Student {
 	public ArrayList<Double> getTestGradeList() {
 		return this.testGrades.getPointsEarnedList();
 	}
+	
+	/**
+	 * Returns total points earned on all lab grades
+	 * @return total points earned on all lab grades
+	 */
+	public double getTotalLabPointsEarned() {
+		double totalPoints = 0;
+		for (Double current : this.labGrades.getPointsEarnedList()) {
+			totalPoints += current;
+		}
+		return totalPoints;
+	}
 }
