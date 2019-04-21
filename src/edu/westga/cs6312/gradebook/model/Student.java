@@ -52,6 +52,30 @@ public class Student {
 	}
 	
 	/**
+	 * Getter for student's ID number
+	 * @return the idNumber
+	 */
+	public int getIdNumber() {
+		return this.idNumber;
+	}
+
+	/**
+	 * Getter for student's first name
+	 * @return the firstName
+	 */
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	/**
+	 * Getter for student's last name
+	 * @return the lastName
+	 */
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	/**
 	 * Adds a new grade to a lab, project, or test based on gradeTypeChoice
 	 * @param gradeTypeChoice	choice of which grade type (lab, project, or test)
 	 * @param pointsEarned	points earned on the assignment
