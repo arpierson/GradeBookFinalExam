@@ -157,6 +157,9 @@ public class ClassroomData {
 	 * Returns straight average of lab grades for a student
 	 * @param theStudent	The student whose average is being calculated
 	 * @return	straight average of lab grades for a student
+	 * 
+	 * Preconditions:	theStudent != null
+	 * 					Student lab grade list size == Classroom lab assignment list
 	 */
 	public double getStudentLabAverage(Student theStudent) {
 		if (theStudent == null) {
@@ -172,6 +175,9 @@ public class ClassroomData {
 	 * Returns straight average of project grades for a student
 	 * @param theStudent	The student whose average is being calculated
 	 * @return	straight average of project grades for a student
+	 * 
+	 * Preconditions:	theStudent != null
+	 * 					Student project grade list size == Classroom project assignment list
 	 */
 	public double getStudentProjectAverage(Student theStudent) {
 		if (theStudent == null) {
@@ -187,6 +193,9 @@ public class ClassroomData {
 	 * Returns straight average of test grades for a student
 	 * @param theStudent	The student whose average is being calculated
 	 * @return	straight average of test grades for a student
+	 * 
+	 * Preconditions:	theStudent != null
+	 * 					Student test grade list size == Classroom test assignment list
 	 */
 	public double getStudentTestAverage(Student theStudent) {
 		if (theStudent == null) {
@@ -196,6 +205,33 @@ public class ClassroomData {
 			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
 		}
 		return this.roundAverage(theStudent.getTotalTestPointsEarned() / this.getTotalTestPointsPossible());
+	}
+	
+	/**
+	 * Returns the straight average of all grades for a student
+	 * @param theStudent	The student whose average is being calculated
+	 * @return	the straight average of all grades for a student
+	 * 
+	 * Preconditions:	theStudent != null
+	 * 					Student lab grade list size == Classroom lab assignment list
+	 * 					Student project grade list size == Classroom project assignment list
+	 * 					Student test grade list size == Classroom test assignment list
+	 */
+	public double getStudentClassAverage(Student theStudent) {
+		if (theStudent == null) {
+			throw new IllegalArgumentException("Student cannot be null");
+		}
+		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
+		}
+		if (theStudent.getProjectGradeList().size() != this.projectAssignmentList.size()) {
+			throw new IllegalArgumentException("Student project grade list contains incorrect amount of grades earned");
+		}
+		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
+		}
+		return this.roundAverage((theStudent.getTotalLabPointsEarned() + theStudent.getTotalProjectPointsEarned() + theStudent.getTotalTestPointsEarned())
+				/ (this.getTotalLabPointsPossible() + this.getTotalProjectPointsPossible() + this.getTotalTestPointsPossible()));
 	}
 	
 	private double roundAverage(double average) {
