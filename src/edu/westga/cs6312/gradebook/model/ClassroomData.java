@@ -138,6 +138,26 @@ public class ClassroomData {
 		return this.studentList;
 	}
 	
+	/**
+	 * Returns a student from the student roster if there is a matching ID number
+	 * @param studentID	the student's ID number that is being searched for
+	 * @return	Student whose ID number == studentID param
+	 */
+	public Student getStudent(int studentID) {
+		Student theStudent = null;
+		for (Student current : this.studentList) {
+			if (studentID == current.getIdNumber()) {
+				theStudent = current;
+			}
+		}
+		return theStudent;
+	}
+	
+	/**
+	public double getStudentLabAverage() {
+		
+	}**/
+	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
 		return Double.parseDouble(averageString);
