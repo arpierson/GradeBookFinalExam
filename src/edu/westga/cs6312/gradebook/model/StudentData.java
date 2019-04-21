@@ -41,4 +41,9 @@ public class StudentData {
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
+	
+	@Override
+	public String toString() {
+		return this.idNumber + " " + this.firstName + " " + this.lastName;
+	}
 }
