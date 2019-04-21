@@ -9,7 +9,6 @@ import java.util.ArrayList;
  *
  */
 public class ClassroomData {
-	private ArrayList<Student> studentList;
 	private ArrayList<Double> labAssignmentList;
 	private ArrayList<Double> projectAssignmentList;
 	private ArrayList<Double> testAssignmentList;
@@ -18,7 +17,6 @@ public class ClassroomData {
 	 * 0-parameter constructor to instantiate the instance variables
 	 */
 	public ClassroomData() {
-		this.studentList = new ArrayList<Student>();
 		this.labAssignmentList = new ArrayList<Double>();
 		this.projectAssignmentList = new ArrayList<Double>();
 		this.testAssignmentList = new ArrayList<Double>();
@@ -29,7 +27,7 @@ public class ClassroomData {
 	 * @param gradeTypeChoice	choice of which grade type (lab, project, or test)
 	 * @param pointsPossible	points possible on the assignment
 	 * 
-	 * Precondition:	gradeTypeChoice must be 1, 2, or 3
+	 * Precondition:	gradeTypeChoice must be 0, 1, or 2
 	 * 					pointsPossible !< 0
 	 */
 	public void addAssingment(int gradeTypeChoice, double pointsPossible) {
@@ -37,13 +35,21 @@ public class ClassroomData {
 			throw new IllegalArgumentException("Assignment cannot be worth less than 0");
 		}
 		switch (gradeTypeChoice) {
-			case 1: this.labAssignmentList.add(pointsPossible);
+			case 0: this.labAssignmentList.add(pointsPossible);
 					break;
-			case 2: this.projectAssignmentList.add(pointsPossible);
+			case 1: this.projectAssignmentList.add(pointsPossible);
 					break;
-			case 3: this.testAssignmentList.add(pointsPossible);
+			case 2: this.testAssignmentList.add(pointsPossible);
 					break;
 			default: throw new IllegalArgumentException("Grade type (lab, project, or test) not specified");
 		}
+	}
+	
+	/**
+	 * Returns lab assignment list
+	 * @return	lab assignment list
+	 */
+	public ArrayList<Double> getLabAssignmentList() {
+		return this.labAssignmentList;
 	}
 }
