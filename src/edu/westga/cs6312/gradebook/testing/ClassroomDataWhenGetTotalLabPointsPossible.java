@@ -17,9 +17,9 @@ class ClassroomDataWhenGetTotalLabPointsPossible {
 	@Test
 	void testWith3LabGrades() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
 		double result = testClassroom.getTotalLabPointsPossible();
 		assertEquals(30, result);
 	}
@@ -27,16 +27,16 @@ class ClassroomDataWhenGetTotalLabPointsPossible {
 	@Test
 	void testWith10LabGrades() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 10);
 		double result = testClassroom.getTotalLabPointsPossible();
 		assertEquals(100, result);
 	}

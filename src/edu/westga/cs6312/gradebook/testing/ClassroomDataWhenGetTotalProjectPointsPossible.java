@@ -17,9 +17,9 @@ class ClassroomDataWhenGetTotalProjectPointsPossible {
 	@Test
 	void testWith3ProjectGrades() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
 		double result = testClassroom.getTotalProjectPointsPossible();
 		assertEquals(30, result);
 	}
@@ -27,16 +27,16 @@ class ClassroomDataWhenGetTotalProjectPointsPossible {
 	@Test
 	void testWith10ProjectGrades() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
-		testClassroom.addAssingment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
+		testClassroom.addAssignment(1, 10);
 		double result = testClassroom.getTotalProjectPointsPossible();
 		assertEquals(100, result);
 	}

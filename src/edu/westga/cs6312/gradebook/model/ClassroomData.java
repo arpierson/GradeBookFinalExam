@@ -30,7 +30,7 @@ public class ClassroomData {
 	 * Precondition:	gradeTypeChoice must be 0, 1, or 2
 	 * 					pointsPossible !< 0
 	 */
-	public void addAssingment(int gradeTypeChoice, double pointsPossible) {
+	public void addAssignment(int gradeTypeChoice, double pointsPossible) {
 		if (pointsPossible <= -1) {
 			throw new IllegalArgumentException("Assignment cannot be worth less than 0");
 		}

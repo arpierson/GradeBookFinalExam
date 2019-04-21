@@ -17,7 +17,7 @@ class ClassroomDataWhenAddLabAssignment {
 	@Test
 	void testWhenAdding1LabGrade() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(0, 10);
+		testClassroom.addAssignment(0, 10);
 		double result = testClassroom.getLabAssignmentList().get(0);
 		assertEquals(10, result);
 	}
@@ -25,9 +25,9 @@ class ClassroomDataWhenAddLabAssignment {
 	@Test
 	void testWhenAdding3LabGrades() {
 		ClassroomData testClassroom = new ClassroomData();
-		testClassroom.addAssingment(0, 10);
-		testClassroom.addAssingment(0, 20);
-		testClassroom.addAssingment(0, 30);
+		testClassroom.addAssignment(0, 10);
+		testClassroom.addAssignment(0, 20);
+		testClassroom.addAssignment(0, 30);
 		double result = testClassroom.getLabAssignmentList().get(2);
 		assertEquals(30, result);
 	}
