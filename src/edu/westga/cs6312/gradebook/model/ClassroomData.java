@@ -68,4 +68,16 @@ public class ClassroomData {
 	public ArrayList<Double> getTestAssignmentList() {
 		return this.testAssignmentList;
 	}
+	
+	/**
+	 * Getter for total points possible for all lab assignments
+	 * @return total points possible for all lab assignments
+	 */
+	public double getTotalLabPointsPossible() {
+		double pointsPossible = 0;
+		for (Double current : this.labAssignmentList) {
+			pointsPossible += current;
+		}
+		return pointsPossible;
+	}
 }
