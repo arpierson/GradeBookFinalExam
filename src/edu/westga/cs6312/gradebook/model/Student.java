@@ -46,4 +46,23 @@ public class Student {
 	public String toString() {
 		return this.idNumber + " " + this.firstName + " " + this.lastName;
 	}
+	
+	/**
+	 * Adds a new grade to a lab, project, or test based on gradeTypeChoice
+	 * @param gradeTypeChoice	choice of which grade type (lab, project, or test)
+	 * @param pointsEarned	points earned on the assignment
+	 * 
+	 * Precondition:	gradeTypeChoice must be 1, 2, or 3
+	 */
+	public void addGrade(int gradeTypeChoice, double pointsEarned) {
+		switch (gradeTypeChoice) {
+			case 1: this.labGrades.addGrade(pointsEarned);
+					break;
+			case 2: this.projectGrades.addGrade(pointsEarned);
+					break;
+			case 3: this.testGrades.addGrade(pointsEarned);
+					break;
+			default: throw new IllegalArgumentException("Grade type (lab, project, or test) not specified");
+		}
+	}
 }
