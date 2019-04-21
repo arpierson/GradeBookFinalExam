@@ -52,4 +52,12 @@ public class ClassroomData {
 	public ArrayList<Double> getLabAssignmentList() {
 		return this.labAssignmentList;
 	}
+	
+	/**
+	 * Returns project assignment list
+	 * @return	project assignment list
+	 */
+	public ArrayList<Double> getProjectAssignmentList() {
+		return this.projectAssignmentList;
+	}
 }
