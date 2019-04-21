@@ -15,7 +15,6 @@ public class Student {
 	private int idNumber;
 	private String firstName;
 	private String lastName;
-	private ClassroomData classroom;
 	
 	/**
 	 * 3-parameter constructor to instantiate the instance variables
@@ -43,7 +42,6 @@ public class Student {
 		this.idNumber = idNumber;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.classroom = new ClassroomData();
 	}
 	
 	@Override
