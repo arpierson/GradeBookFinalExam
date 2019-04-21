@@ -92,4 +92,16 @@ public class ClassroomData {
 		}
 		return pointsPossible;
 	}
+	
+	/**
+	 * Getter for total points possible for all test assignments
+	 * @return total points possible for all test assignments
+	 */
+	public double getTotalTestPointsPossible() {
+		double pointsPossible = 0;
+		for (Double current : this.testAssignmentList) {
+			pointsPossible += current;
+		}
+		return pointsPossible;
+	}
 }
