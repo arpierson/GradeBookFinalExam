@@ -183,6 +183,21 @@ public class ClassroomData {
 		return this.roundAverage(theStudent.getTotalProjectPointsEarned() / this.getTotalProjectPointsPossible());
 	}
 	
+	/**
+	 * Returns straight average of test grades for a student
+	 * @param theStudent	The student whose average is being calculated
+	 * @return	straight average of test grades for a student
+	 */
+	public double getStudentTestAverage(Student theStudent) {
+		if (theStudent == null) {
+			throw new IllegalArgumentException("Student cannot be null");
+		}
+		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
+		}
+		return this.roundAverage(theStudent.getTotalTestPointsEarned() / this.getTotalTestPointsPossible());
+	}
+	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
 		return Double.parseDouble(averageString);
