@@ -6,7 +6,7 @@ package edu.westga.cs6312.gradebook.model;
  * @version 04212019
  *
  */
-public class StudentData {
+public class Student {
 	private LabData labGrades;
 	private ProjectData projectGrades;
 	private TestData testGrades;
@@ -24,7 +24,7 @@ public class StudentData {
 	 * 					firstName != null or empty string
 	 * 					lastName != null or empty string
 	 */
-	public StudentData(int idNumber, String firstName, String lastName) {
+	public Student(int idNumber, String firstName, String lastName) {
 		if (idNumber < 0) {
 			throw new IllegalArgumentException("Student ID number cannot be less than 0");
 		}
