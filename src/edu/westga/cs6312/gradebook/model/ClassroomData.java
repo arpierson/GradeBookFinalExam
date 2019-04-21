@@ -60,4 +60,12 @@ public class ClassroomData {
 	public ArrayList<Double> getProjectAssignmentList() {
 		return this.projectAssignmentList;
 	}
+	
+	/**
+	 * Returns test assignment list
+	 * @return	test assignment list
+	 */
+	public ArrayList<Double> getTestAssignmentList() {
+		return this.testAssignmentList;
+	}
 }
