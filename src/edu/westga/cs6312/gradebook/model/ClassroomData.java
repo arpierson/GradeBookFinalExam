@@ -217,7 +217,7 @@ public class ClassroomData {
 	 * 					Student project grade list size == Classroom project assignment list
 	 * 					Student test grade list size == Classroom test assignment list
 	 */
-	public double getStudentClassAverage(Student theStudent) {
+	public double getStudentOverallAverage(Student theStudent) {
 		if (theStudent == null) {
 			throw new IllegalArgumentException("Student cannot be null");
 		}
