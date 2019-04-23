@@ -17,7 +17,7 @@ class StudentWhenAddGrade {
 	@Test
 	void testWhenAddLabGrade() {
 		Student testStudent = new Student(1234, "Doctor", "Who");
-		testStudent.addGrade(1, 10);
+		testStudent.addGrade(0, 10);
 		double result = testStudent.getLabGradeList().get(0);
 		assertEquals(10, result);
 	}
@@ -25,8 +25,8 @@ class StudentWhenAddGrade {
 	@Test
 	void testWhenAddProjectGrade() {
 		Student testStudent = new Student(1234, "Doctor", "Who");
-		testStudent.addGrade(1, 10);
-		testStudent.addGrade(2, 50);
+		testStudent.addGrade(0, 10);
+		testStudent.addGrade(1, 50);
 		double result = testStudent.getProjectGradeList().get(0);
 		assertEquals(50, result);
 	}
@@ -34,9 +34,9 @@ class StudentWhenAddGrade {
 	@Test
 	void testWhenAddTestGrade() {
 		Student testStudent = new Student(1234, "Doctor", "Who");
-		testStudent.addGrade(1, 10);
-		testStudent.addGrade(2, 50);
-		testStudent.addGrade(3, 100);
+		testStudent.addGrade(0, 10);
+		testStudent.addGrade(1, 50);
+		testStudent.addGrade(2, 100);
 		double result = testStudent.getTestGradeList().get(0);
 		assertEquals(100, result);
 	}
