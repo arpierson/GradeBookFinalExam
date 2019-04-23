@@ -188,6 +188,9 @@ public class GradeBookPane extends Pane {
 		
 		FileReader() {
 			this.theFileChooser = new FileChooser();
+			this.theFileChooser.getExtensionFilters().addAll(
+			        new FileChooser.ExtensionFilter("Plaintext files", "*.txt"),
+			        new FileChooser.ExtensionFilter("All files", "*.*"));
 		}
 		
 		public File chooseFile() {
