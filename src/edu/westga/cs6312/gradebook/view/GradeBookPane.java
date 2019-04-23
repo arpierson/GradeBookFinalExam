@@ -3,6 +3,7 @@ package edu.westga.cs6312.gradebook.view;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import edu.westga.cs6312.gradebook.model.ClassroomData;
@@ -223,9 +224,9 @@ public class GradeBookPane extends Pane {
 				alert.showAndWait();
 			} catch (NullPointerException npe) {
 				
-			} catch (FileNotFoundException fnfe) {
+			} catch (FileNotFoundException | NoSuchElementException exception) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("The file could not be located or does not exist");
+				alert.setContentText("Incorrect file selection. Must be a .txt file.");
 				alert.showAndWait();
 			}
 		}
