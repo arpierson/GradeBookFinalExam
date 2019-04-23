@@ -226,7 +226,7 @@ public class GradeBookPane extends Pane {
 				
 			} catch (FileNotFoundException | NoSuchElementException exception) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Incorrect file selection. Must be a .txt file.");
+				alert.setContentText("Incorrect file selection.");
 				alert.showAndWait();
 			}
 		}
