@@ -6,6 +6,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import edu.westga.cs6312.gradebook.model.ClassroomData;
+import edu.westga.cs6312.gradebook.model.Student;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -13,6 +18,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 /**
@@ -24,6 +30,7 @@ import javafx.stage.FileChooser;
 public class GradeBookPane extends Pane {
 	private ClassroomData theClassroom;
 	private FileReader theFileReader;
+	private StringProperty studentNameProperty;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -31,6 +38,7 @@ public class GradeBookPane extends Pane {
 	public GradeBookPane() {
 		this.theClassroom = new ClassroomData();
 		this.theFileReader = new FileReader();
+		this.studentNameProperty = new SimpleStringProperty();
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -44,6 +52,7 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setMenuBar());
+		mainOverlay.setCenter(this.setStudentInformationContent());
 		
 		this.getChildren().add(mainOverlay);
 	}
@@ -58,12 +67,34 @@ public class GradeBookPane extends Pane {
 		});
 		file.getItems().add(open);
 		
-		Menu about = new Menu("About");
-		MenuItem help = new MenuItem("Help");
-		about.getItems().add(help);
+		Menu help = new Menu("Help");
+		MenuItem about = new MenuItem("About");
+		about.setOnAction(showAbout -> {
+			this.showAboutBox();
+		});
+		help.getItems().add(about);
 		
-		theMenuBar.getMenus().addAll(file, about);
+		theMenuBar.getMenus().addAll(file, help);
 		return theMenuBar;
+	}
+	
+	private Text setStudentInformationContent() {
+		Text studentName = new Text("Please select a file.");
+		this.studentNameProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentName.setText((String) newValue); 
+            }
+        });
+		return studentName;
+	}
+	
+	private void showAboutBox() {
+		Alert applicationInformation = new Alert(AlertType.INFORMATION);
+		applicationInformation.setTitle("CS6312 Allen Pierson Final Project");
+		applicationInformation.setHeaderText(null);
+		applicationInformation.setContentText("GradeBook Application by Allen Pierson (CS6312)");
+		applicationInformation.showAndWait();
 	}
 	
 	class FileReader {
@@ -94,6 +125,12 @@ public class GradeBookPane extends Pane {
 					}
 				}
 				this.readStudentData(theFile);
+			}  catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setContentText("Data Format error on line 1");
+				alert.showAndWait();
+			} catch (NullPointerException npe) {
+				
 			} catch (FileNotFoundException fnfe) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setContentText("The file could not be located or does not exist");
@@ -103,10 +140,12 @@ public class GradeBookPane extends Pane {
 		
 		private void readStudentData(File theFile) throws FileNotFoundException {
 			int gradeType = 0;
+			int lineNumber = 2;
 			try (Scanner inFile = new Scanner(theFile)) {
 				while (inFile.hasNext()) {
 					inFile.nextLine();
 					try {
+						GradeBookPane.this.theClassroom.getStudentList().clear();
 						String[] studentData = inFile.nextLine().split(",");
 						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
 						for (int current = 3; current < studentData.length; current++) {
@@ -116,17 +155,19 @@ public class GradeBookPane extends Pane {
 								GradeBookPane.this.theClassroom.getStudent(Integer.valueOf(studentData[0])).addGrade(gradeType, Double.valueOf(studentData[current]));
 							}
 						}
+						lineNumber++;
+						GradeBookPane.this.studentNameProperty.set(this.getStudent().getIdNumber() + " " + this.getStudent().getFirstName() + " " + this.getStudent().getLastName());
 					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 						Alert alert = new Alert(AlertType.ERROR);
-						alert.setContentText("Data Format Error at index ");
+						alert.setContentText("Data Format error on line " + lineNumber);
 						alert.showAndWait();
 					}
 				}
-			} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
-				Alert alert = new Alert(AlertType.ERROR);
-				alert.setContentText("Data Format Error at index ");
-				alert.showAndWait();
 			}
+		}
+		
+		private Student getStudent() {
+			return GradeBookPane.this.theClassroom.getStudentList().get(0);
 		}
 	}
 }
