@@ -11,11 +11,15 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -55,7 +59,7 @@ public class GradeBookPane extends Pane {
 	}
 	
 	private void setPaneSize() {
-		this.setPrefSize(500, 300);
+		this.setPrefSize(500, 350);
 	}
 	
 	private void setPaneLayout() {
@@ -73,19 +77,21 @@ public class GradeBookPane extends Pane {
 	
 	private MenuBar setMenuBar() {
 		MenuBar theMenuBar = new MenuBar();
-		Menu file = new Menu("File");
+		Menu file = new Menu("_File");
 		MenuItem open = new MenuItem("Open");
 		open.setOnAction(openFile -> {
 			File dataFile = this.theFileReader.chooseFile();
 			this.theFileReader.readFile(dataFile);
 		});
+		open.setAccelerator(new KeyCodeCombination(KeyCode.O,  KeyCombination.CONTROL_DOWN));
 		file.getItems().add(open);
 		
-		Menu help = new Menu("Help");
+		Menu help = new Menu("_Help");
 		MenuItem about = new MenuItem("About");
 		about.setOnAction(showAbout -> {
 			this.showAboutBox();
 		});
+		about.setAccelerator(new KeyCodeCombination(KeyCode.I,  KeyCombination.CONTROL_DOWN));
 		help.getItems().add(about);
 		
 		theMenuBar.getMenus().addAll(file, help);
@@ -100,7 +106,7 @@ public class GradeBookPane extends Pane {
                 studentName.setText((String) newValue); 
             }
         });
-		studentName.setFont(Font.font("Verdana", 35));
+		studentName.setFont(Font.font("Verdana", 30));
 		return studentName;
 	}
 	
@@ -119,6 +125,7 @@ public class GradeBookPane extends Pane {
 		Text studentTest = this.setStudentTestAverage();
 		Text studentOverall = this.setStudentOverallAverage();
 		averageData.setSpacing(15);
+		averageData.setPadding(new Insets(0, 0, 15, 15));
 		
 		averageData.getChildren().addAll(studentLab, studentProject, studentTest, studentOverall);
 		return averageData;
@@ -138,7 +145,7 @@ public class GradeBookPane extends Pane {
 	
 	private Text setStudentProjectAverage() {
 		Text studentProjectAverage = new Text("");
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 studentProjectAverage.setText((String) newValue); 
@@ -150,7 +157,7 @@ public class GradeBookPane extends Pane {
 	
 	private Text setStudentTestAverage() {
 		Text studentTestAverage = new Text("");
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 studentTestAverage.setText((String) newValue); 
@@ -162,7 +169,7 @@ public class GradeBookPane extends Pane {
 	
 	private Text setStudentOverallAverage() {
 		Text studentOverallAverage = new Text("");
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
                 studentOverallAverage.setText((String) newValue); 
