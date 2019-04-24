@@ -234,6 +234,15 @@ public class ClassroomData {
 				/ (this.getTotalLabPointsPossible() + this.getTotalProjectPointsPossible() + this.getTotalTestPointsPossible()));
 	}
 	
+	/**
+	 * Returns the weighted average of the student's grades
+	 * @param theStudent	The student whose average is being calculated
+	 * @return	the weighted average of all grades for a student
+	 */
+	public double getStudentWeightedAverage(Student theStudent) {
+		return ((this.getStudentLabAverage(theStudent) * .2) + (this.getStudentProjectAverage(theStudent) * .35) + (this.getStudentTestAverage(theStudent) * .45) * 100);
+	}
+	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
 		return Double.parseDouble(averageString);
