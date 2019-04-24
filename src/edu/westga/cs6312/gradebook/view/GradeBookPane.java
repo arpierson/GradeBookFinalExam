@@ -79,6 +79,7 @@ public class GradeBookPane extends Pane {
 	private MenuBar setMenuBar() {
 		MenuBar theMenuBar = new MenuBar();
 		Menu file = new Menu("_File");
+		file.setMnemonicParsing(true);
 		MenuItem open = new MenuItem("Open");
 		open.setOnAction(openFile -> {
 			File dataFile = this.theFileReader.chooseFile();
@@ -94,7 +95,7 @@ public class GradeBookPane extends Pane {
 		});
 		about.setAccelerator(new KeyCodeCombination(KeyCode.I,  KeyCombination.CONTROL_DOWN));
 		help.getItems().add(about);
-		
+		about.setMnemonicParsing(true);
 		theMenuBar.getMenus().addAll(file, help);
 		return theMenuBar;
 	}
