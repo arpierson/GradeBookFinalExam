@@ -219,7 +219,7 @@ public class GradeBookPane extends Pane {
 				}
 				this.readStudentData(theFile);
 			}  catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
-				Alert alert = new Alert(AlertType.ERROR);
+				Alert alert = new Alert(AlertType.WARNING);
 				alert.setContentText("Data Format error on line 1");
 				alert.showAndWait();
 			} catch (NullPointerException npe) {
@@ -253,8 +253,8 @@ public class GradeBookPane extends Pane {
 						GradeBookPane.this.studentTestAverageProperty.set(String.valueOf("Test average: " + GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
 						GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf("Overall average: " + GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
 					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setContentText("Data Format error");
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.setContentText("Data error: " + exception.getMessage());
 						alert.showAndWait();
 					}
 				}

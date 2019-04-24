@@ -201,7 +201,7 @@ public class ClassroomData {
 		if (theStudent == null) {
 			throw new IllegalArgumentException("Student cannot be null");
 		}
-		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+		if (theStudent.getTestGradeList().size() != this.testAssignmentList.size()) {
 			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
 		}
 		return this.roundAverage(theStudent.getTotalTestPointsEarned() / this.getTotalTestPointsPossible());
@@ -222,12 +222,12 @@ public class ClassroomData {
 			throw new IllegalArgumentException("Student cannot be null");
 		}
 		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
-			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
+			throw new IllegalArgumentException("Student lab grade list contains incorrect amount of grades earned");
 		}
 		if (theStudent.getProjectGradeList().size() != this.projectAssignmentList.size()) {
 			throw new IllegalArgumentException("Student project grade list contains incorrect amount of grades earned");
 		}
-		if (theStudent.getLabGradeList().size() != this.labAssignmentList.size()) {
+		if (theStudent.getTestGradeList().size() != this.testAssignmentList.size()) {
 			throw new IllegalArgumentException("Student test grade list contains incorrect amount of grades earned");
 		}
 		return this.roundAverage((theStudent.getTotalLabPointsEarned() + theStudent.getTotalProjectPointsEarned() + theStudent.getTotalTestPointsEarned())
