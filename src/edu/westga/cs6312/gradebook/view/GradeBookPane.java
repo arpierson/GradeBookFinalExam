@@ -43,6 +43,7 @@ public class GradeBookPane extends Pane {
 	private StringProperty studentProjectAverageProperty;
 	private StringProperty studentTestAverageProperty;
 	private StringProperty studentOverallAverageProperty;
+	private StringProperty studentWeightedAverageProperty;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -55,6 +56,7 @@ public class GradeBookPane extends Pane {
 		this.studentProjectAverageProperty = new SimpleStringProperty();
 		this.studentTestAverageProperty = new SimpleStringProperty();
 		this.studentOverallAverageProperty = new SimpleStringProperty();
+		this.studentWeightedAverageProperty = new SimpleStringProperty();
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -126,10 +128,11 @@ public class GradeBookPane extends Pane {
 		Text studentProject = this.setStudentProjectAverage();
 		Text studentTest = this.setStudentTestAverage();
 		Text studentOverall = this.setStudentOverallAverage();
+		Text studentWeighted = this.setStudentWeightedAverage();
 		averageData.setSpacing(15);
 		averageData.setPadding(new Insets(0, 0, 15, 15));
 		
-		averageData.getChildren().addAll(studentLab, studentProject, studentTest, studentOverall);
+		averageData.getChildren().addAll(studentLab, studentProject, studentTest, studentOverall, studentWeighted);
 		return averageData;
 	}
 	
@@ -179,6 +182,18 @@ public class GradeBookPane extends Pane {
         });
 		studentOverallAverage.setFont(Font.font("Verdana", 20));
 		return studentOverallAverage;
+	}
+	
+	private Text setStudentWeightedAverage() {
+		Text studentWeightedAverage = new Text("");
+		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentWeightedAverage.setText((String) newValue); 
+        	}
+        });
+		studentWeightedAverage.setFont(Font.font("Verdana", 20));
+		return studentWeightedAverage;
 	}
 	
 	private Student getStudent() {
@@ -248,11 +263,7 @@ public class GradeBookPane extends Pane {
 								GradeBookPane.this.theClassroom.getStudent(Integer.valueOf(studentData[0])).addGrade(gradeType, Double.valueOf(studentData[current]));
 							}
 						}
-						GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getStudent().getIdNumber() + " " + GradeBookPane.this.getStudent().getFirstName() + " " + GradeBookPane.this.getStudent().getLastName());
-						GradeBookPane.this.studentLabAverageProperty.set(String.valueOf("Lab average: " + GradeBookPane.this.theClassroom.getStudentLabAverage(GradeBookPane.this.getStudent())));
-						GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf("Project average: " + GradeBookPane.this.theClassroom.getStudentProjectAverage(GradeBookPane.this.getStudent())));
-						GradeBookPane.this.studentTestAverageProperty.set(String.valueOf("Test average: " + GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
-						GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf("Overall average: " + GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
+						this.setStudentProperties();
 					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.setContentText("Data error: " + exception.getMessage());
@@ -262,6 +273,15 @@ public class GradeBookPane extends Pane {
 				}
 			}
 		}
+		
+		private void setStudentProperties() {
+			GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getStudent().getIdNumber() + " " + GradeBookPane.this.getStudent().getFirstName() + " " + GradeBookPane.this.getStudent().getLastName());
+			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf("Lab average: " + GradeBookPane.this.theClassroom.getStudentLabAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf("Project average: " + GradeBookPane.this.theClassroom.getStudentProjectAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf("Test average: " + GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf("Overall average: " + GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf("Weighted average: " + GradeBookPane.this.theClassroom.getStudentWeightedAverage(GradeBookPane.this.getStudent())));
+		}
 
 		private void clearAverages() {
 			GradeBookPane.this.studentNameProperty.set("Please select a file.");
@@ -269,6 +289,7 @@ public class GradeBookPane extends Pane {
 			GradeBookPane.this.studentProjectAverageProperty.set("");
 			GradeBookPane.this.studentTestAverageProperty.set("");
 			GradeBookPane.this.studentOverallAverageProperty.set("");
+			GradeBookPane.this.studentWeightedAverageProperty.set("");
 		}
 	}
 }

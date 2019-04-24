@@ -240,7 +240,10 @@ public class ClassroomData {
 	 * @return	the weighted average of all grades for a student
 	 */
 	public double getStudentWeightedAverage(Student theStudent) {
-		return ((this.getStudentLabAverage(theStudent) * .2) + (this.getStudentProjectAverage(theStudent) * .35) + (this.getStudentTestAverage(theStudent) * .45) * 100);
+		double weightedLab = (this.getStudentLabAverage(theStudent) / 100) * .2;
+		double weightedProject = (this.getStudentProjectAverage(theStudent) / 100) * .35;
+		double weightedTest = (this.getStudentTestAverage(theStudent) / 100) * .45;
+		return this.roundAverage(weightedLab + weightedProject + weightedTest);
 	}
 	
 	private double roundAverage(double average) {
