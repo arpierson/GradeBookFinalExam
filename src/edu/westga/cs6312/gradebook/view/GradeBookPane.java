@@ -256,9 +256,18 @@ public class GradeBookPane extends Pane {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.setContentText("Data error: " + exception.getMessage());
 						alert.showAndWait();
+						this.clearAverages();
 					}
 				}
 			}
+		}
+
+		private void clearAverages() {
+			GradeBookPane.this.studentNameProperty.set("Please select a file.");
+			GradeBookPane.this.studentLabAverageProperty.set("");
+			GradeBookPane.this.studentProjectAverageProperty.set("");
+			GradeBookPane.this.studentTestAverageProperty.set("");
+			GradeBookPane.this.studentOverallAverageProperty.set("");
 		}
 	}
 }
