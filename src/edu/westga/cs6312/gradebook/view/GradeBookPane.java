@@ -14,6 +14,10 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -22,7 +26,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -62,7 +68,7 @@ public class GradeBookPane extends Pane {
 	}
 	
 	private void setPaneSize() {
-		this.setPrefSize(500, 350);
+		this.setPrefSize(600, 600);
 	}
 	
 	private void setPaneLayout() {
@@ -70,7 +76,7 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setMenuBar());
-		mainOverlay.setCenter(this.setStudentInformationContent());
+		mainOverlay.setCenter(this.setBarGraph());
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
@@ -124,11 +130,11 @@ public class GradeBookPane extends Pane {
 	
 	private VBox showStudentAverages() {
 		VBox averageData = new VBox();
-		Text studentLab = this.setStudentLabAverage();
-		Text studentProject = this.setStudentProjectAverage();
-		Text studentTest = this.setStudentTestAverage();
-		Text studentOverall = this.setStudentOverallAverage();
-		Text studentWeighted = this.setStudentWeightedAverage();
+		HBox studentLab = this.setStudentLabAverage();
+		HBox studentProject = this.setStudentProjectAverage();
+		HBox studentTest = this.setStudentTestAverage();
+		HBox studentOverall = this.setStudentOverallAverage();
+		HBox studentWeighted = this.setStudentWeightedAverage();
 		averageData.setSpacing(15);
 		averageData.setPadding(new Insets(0, 0, 15, 15));
 		
@@ -136,7 +142,9 @@ public class GradeBookPane extends Pane {
 		return averageData;
 	}
 	
-	private Text setStudentLabAverage() {
+	private HBox setStudentLabAverage() {
+		HBox labBox = new HBox();
+		Label labLabel = new Label("Lab average: ");
 		Text studentLabAverage = new Text("");
 		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -144,11 +152,15 @@ public class GradeBookPane extends Pane {
                 studentLabAverage.setText((String) newValue); 
         	}
         });
-		studentLabAverage.setFont(Font.font("Verdana", 20));
-		return studentLabAverage;
+		labLabel.setFont(Font.font("Verdana", 15));
+		studentLabAverage.setFont(Font.font("Verdana", 15));
+		labBox.getChildren().addAll(labLabel, studentLabAverage);
+		return labBox;
 	}
 	
-	private Text setStudentProjectAverage() {
+	private HBox setStudentProjectAverage() {
+		HBox projectBox = new HBox();
+		Label projectLabel = new Label("Project average: ");
 		Text studentProjectAverage = new Text("");
 		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -156,11 +168,15 @@ public class GradeBookPane extends Pane {
                 studentProjectAverage.setText((String) newValue); 
         	}
         });
-		studentProjectAverage.setFont(Font.font("Verdana", 20));
-		return studentProjectAverage;
+		projectLabel.setFont(Font.font("Verdana", 15));
+		studentProjectAverage.setFont(Font.font("Verdana", 15));
+		projectBox.getChildren().addAll(projectLabel, studentProjectAverage);
+		return projectBox;
 	}
 	
-	private Text setStudentTestAverage() {
+	private HBox setStudentTestAverage() {
+		HBox testBox = new HBox();
+		Label testLabel = new Label("Test average: ");
 		Text studentTestAverage = new Text("");
 		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -168,11 +184,15 @@ public class GradeBookPane extends Pane {
                 studentTestAverage.setText((String) newValue); 
         	}
         });
-		studentTestAverage.setFont(Font.font("Verdana", 20));
-		return studentTestAverage;
+		testLabel.setFont(Font.font("Verdana", 15));
+		studentTestAverage.setFont(Font.font("Verdana", 15));
+		testBox.getChildren().addAll(testLabel, studentTestAverage);
+		return testBox;
 	}
 	
-	private Text setStudentOverallAverage() {
+	private HBox setStudentOverallAverage() {
+		HBox straightAverageBox = new HBox();
+		Label straightAverageLabel = new Label("Straight average: ");
 		Text studentOverallAverage = new Text("");
 		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -180,11 +200,15 @@ public class GradeBookPane extends Pane {
                 studentOverallAverage.setText((String) newValue); 
         	}
         });
-		studentOverallAverage.setFont(Font.font("Verdana", 20));
-		return studentOverallAverage;
+		straightAverageLabel.setFont(Font.font("Verdana", 15));
+		studentOverallAverage.setFont(Font.font("Verdana", 15));
+		straightAverageBox.getChildren().addAll(straightAverageLabel, studentOverallAverage);
+		return straightAverageBox;
 	}
 	
-	private Text setStudentWeightedAverage() {
+	private HBox setStudentWeightedAverage() {
+		HBox weightedAverageBox = new HBox();
+		Label weightedAverageLabel = new Label("Weighted average: ");
 		Text studentWeightedAverage = new Text("");
 		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -192,12 +216,100 @@ public class GradeBookPane extends Pane {
                 studentWeightedAverage.setText((String) newValue); 
         	}
         });
-		studentWeightedAverage.setFont(Font.font("Verdana", 20));
-		return studentWeightedAverage;
+		weightedAverageLabel.setFont(Font.font("Verdana", 15));
+		studentWeightedAverage.setFont(Font.font("Verdana", 15));
+		weightedAverageBox.getChildren().addAll(weightedAverageLabel, studentWeightedAverage);
+		return weightedAverageBox;
 	}
 	
 	private Student getStudent() {
 		return GradeBookPane.this.theClassroom.getStudentList().get(0);
+	}
+	
+	private BarChart<String, Number> setBarGraph() {
+		CategoryAxis xAxis = new CategoryAxis();
+		xAxis.setLabel("Grade Categories");
+		NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Grade Averages");
+		BarChart<String, Number> averageChart = new BarChart<String, Number>(xAxis, yAxis);
+		
+		XYChart.Series<String, Number> labData = this.getLabBar();
+		XYChart.Series<String, Number> projectData = this.getProjectsBar();
+		XYChart.Series<String, Number> testData = this.getTestBar();
+		XYChart.Series<String, Number> overallStraight = this.getStraightAverageBar();
+		XYChart.Series<String, Number> overallWeighted = this.getWeightedAverageBar();
+		
+		averageChart.getData().add(labData);
+		averageChart.getData().add(projectData);
+		averageChart.getData().add(testData);
+		averageChart.getData().add(overallStraight);
+		averageChart.getData().add(overallWeighted);
+		return averageChart;
+	}
+	
+	private XYChart.Series<String, Number> getLabBar() {
+		XYChart.Series<String, Number> labData = new XYChart.Series<String, Number>();
+		labData.setName("Labs");
+		labData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
+		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+        	}
+        });
+		return labData;
+	}
+	
+	private XYChart.Series<String, Number> getProjectsBar() {
+		XYChart.Series<String, Number> projectData = new XYChart.Series<String, Number>();
+		projectData.setName("Projects");
+		projectData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
+		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+        	}
+        });
+		return projectData;
+	}
+	
+	private XYChart.Series<String, Number> getTestBar() {
+		XYChart.Series<String, Number> testData = new XYChart.Series<String, Number>();
+		testData.setName("Tests");
+		testData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
+		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+        	}
+        });
+		return testData;
+	}
+	
+	private XYChart.Series<String, Number> getStraightAverageBar() {
+		XYChart.Series<String, Number> straightData = new XYChart.Series<String, Number>();
+		straightData.setName("Straight Average");
+		straightData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
+		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+        	}
+        });
+		return straightData;
+	}
+	
+	private XYChart.Series<String, Number> getWeightedAverageBar() {
+		XYChart.Series<String, Number> weightedData = new XYChart.Series<String, Number>();
+		weightedData.setName("Weighted Average");
+		weightedData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
+		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+        	}
+        });
+		return weightedData;
 	}
 	
 	class FileReader {
@@ -276,11 +388,11 @@ public class GradeBookPane extends Pane {
 		
 		private void setStudentProperties() {
 			GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getStudent().getIdNumber() + " " + GradeBookPane.this.getStudent().getFirstName() + " " + GradeBookPane.this.getStudent().getLastName());
-			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf("Lab average: " + GradeBookPane.this.theClassroom.getStudentLabAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf("Project average: " + GradeBookPane.this.theClassroom.getStudentProjectAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf("Test average: " + GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf("Overall average: " + GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf("Weighted average: " + GradeBookPane.this.theClassroom.getStudentWeightedAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage(GradeBookPane.this.getStudent())));
 		}
 
 		private void clearAverages() {
