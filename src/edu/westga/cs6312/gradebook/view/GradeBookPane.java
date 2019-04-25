@@ -12,6 +12,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
@@ -28,11 +29,13 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 
 /**
@@ -76,7 +79,9 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setMenuBar());
-		mainOverlay.setCenter(this.setBarGraph());
+		VBox studentInformation = this.setGraphAndStudentInformation();
+		mainOverlay.setCenter(studentInformation);
+		BorderPane.setAlignment(studentInformation, Pos.CENTER);
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
@@ -226,11 +231,25 @@ public class GradeBookPane extends Pane {
 		return GradeBookPane.this.theClassroom.getStudentList().get(0);
 	}
 	
+	private VBox setGraphAndStudentInformation() {
+		VBox nameAndGraphPane = new VBox();
+		HBox studentNameBox = new HBox();
+		studentNameBox.setPadding(new Insets(10, 0, 10, 20));
+		Text studentInformation = this.setStudentInformationContent();
+		studentNameBox.getChildren().add(studentInformation);
+		nameAndGraphPane.setPadding(new Insets(0, 0, 15, 0));
+		nameAndGraphPane.getChildren().addAll(studentNameBox, this.setBarGraph());
+		return nameAndGraphPane;
+	}
+	
 	private BarChart<String, Number> setBarGraph() {
 		CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("Grade Categories");
 		NumberAxis yAxis = new NumberAxis();
 		yAxis.setLabel("Grade Averages");
+		yAxis.setAutoRanging(false);
+		yAxis.setTickUnit(10);
+		yAxis.setMinorTickVisible(false);
 		BarChart<String, Number> averageChart = new BarChart<String, Number>(xAxis, yAxis);
 		
 		XYChart.Series<String, Number> labData = this.getLabBar();
