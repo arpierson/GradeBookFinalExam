@@ -68,17 +68,15 @@ public class GradeBookPane extends Pane {
 	}
 	
 	private void setPaneSize() {
-		this.setPrefSize(600, 600);
+		this.setPrefSize(800, 650);
 	}
 	
 	private void setPaneLayout() {
 		BorderPane mainOverlay = new BorderPane();
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
-		mainOverlay.setTop(this.setMenuBar());
-		VBox studentInformation = this.setGraphAndStudentInformation();
-		mainOverlay.setCenter(studentInformation);
-		BorderPane.setAlignment(studentInformation, Pos.CENTER);
+		mainOverlay.setTop(this.setTopOfPane());
+		mainOverlay.setCenter(this.setBarGraph());
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
@@ -120,6 +118,16 @@ public class GradeBookPane extends Pane {
         });
 		studentName.setFont(Font.font("Verdana", 30));
 		return studentName;
+	}
+	
+	private VBox setTopOfPane() {
+		VBox topContentBox = new VBox();
+		HBox studentNameBox = new HBox();
+		studentNameBox.setPadding(new Insets(10, 0, 10, 20));
+		Text studentInformation = this.setStudentInformationContent();
+		studentNameBox.getChildren().add(studentInformation);
+		topContentBox.getChildren().addAll(this.setMenuBar(), studentNameBox);
+		return topContentBox;
 	}
 	
 	private void showAboutBox() {
@@ -228,17 +236,6 @@ public class GradeBookPane extends Pane {
 		return GradeBookPane.this.theClassroom.getStudentList().get(0);
 	}
 	
-	private VBox setGraphAndStudentInformation() {
-		VBox nameAndGraphPane = new VBox();
-		HBox studentNameBox = new HBox();
-		studentNameBox.setPadding(new Insets(10, 0, 10, 20));
-		Text studentInformation = this.setStudentInformationContent();
-		studentNameBox.getChildren().add(studentInformation);
-		nameAndGraphPane.setPadding(new Insets(0, 0, 15, 0));
-		nameAndGraphPane.getChildren().addAll(studentNameBox, this.setBarGraph());
-		return nameAndGraphPane;
-	}
-	
 	private BarChart<String, Number> setBarGraph() {
 		CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("Grade Categories");
@@ -247,6 +244,8 @@ public class GradeBookPane extends Pane {
 		yAxis.setAutoRanging(false);
 		yAxis.setTickUnit(10);
 		yAxis.setMinorTickVisible(false);
+		yAxis.setUpperBound(100);
+		yAxis.setLowerBound(0);
 		BarChart<String, Number> averageChart = new BarChart<String, Number>(xAxis, yAxis);
 		
 		XYChart.Series<String, Number> labData = this.getLabBar();
@@ -260,6 +259,7 @@ public class GradeBookPane extends Pane {
 		averageChart.getData().add(testData);
 		averageChart.getData().add(overallStraight);
 		averageChart.getData().add(overallWeighted);
+		averageChart.setPadding(new Insets(0, 10, 15, 10));
 		return averageChart;
 	}
 	
@@ -270,7 +270,11 @@ public class GradeBookPane extends Pane {
 		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	if (newValue.equals("")) {
+            		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            	} else {
+            		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	}
         	}
         });
 		return labData;
@@ -283,7 +287,11 @@ public class GradeBookPane extends Pane {
 		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	if (newValue.equals("")) {
+            		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            	} else {
+            		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	}
         	}
         });
 		return projectData;
@@ -296,7 +304,11 @@ public class GradeBookPane extends Pane {
 		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	if (newValue.equals("")) {
+            		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            	} else {
+            		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	}
         	}
         });
 		return testData;
@@ -309,7 +321,11 @@ public class GradeBookPane extends Pane {
 		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	if (newValue.equals("")) {
+            		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            	} else {
+            		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	}
         	}
         });
 		return straightData;
@@ -322,7 +338,11 @@ public class GradeBookPane extends Pane {
 		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	if (newValue.equals("")) {
+            		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            	} else {
+            		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            	}
         	}
         });
 		return weightedData;
