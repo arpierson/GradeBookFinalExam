@@ -108,6 +108,14 @@ public class GradeBookPane extends Pane {
 		return theMenuBar;
 	}
 	
+	private void showAboutBox() {
+		Alert applicationInformation = new Alert(AlertType.INFORMATION);
+		applicationInformation.setTitle("CS6312 Allen Pierson Final Project");
+		applicationInformation.setHeaderText(null);
+		applicationInformation.setContentText("GradeBook Application by Allen Pierson (CS6312)");
+		applicationInformation.showAndWait();
+	}
+	
 	private Text setStudentInformationContent() {
 		Text studentName = new Text("Please select a file.");
 		this.studentNameProperty.addListener(new ChangeListener<Object>() {
@@ -128,112 +136,6 @@ public class GradeBookPane extends Pane {
 		studentNameBox.getChildren().add(studentInformation);
 		topContentBox.getChildren().addAll(this.setMenuBar(), studentNameBox);
 		return topContentBox;
-	}
-	
-	private void showAboutBox() {
-		Alert applicationInformation = new Alert(AlertType.INFORMATION);
-		applicationInformation.setTitle("CS6312 Allen Pierson Final Project");
-		applicationInformation.setHeaderText(null);
-		applicationInformation.setContentText("GradeBook Application by Allen Pierson (CS6312)");
-		applicationInformation.showAndWait();
-	}
-	
-	private VBox showStudentAverages() {
-		VBox averageData = new VBox();
-		HBox studentLab = this.setStudentLabAverage();
-		HBox studentProject = this.setStudentProjectAverage();
-		HBox studentTest = this.setStudentTestAverage();
-		HBox studentOverall = this.setStudentOverallAverage();
-		HBox studentWeighted = this.setStudentWeightedAverage();
-		averageData.setSpacing(15);
-		averageData.setPadding(new Insets(0, 0, 15, 15));
-		
-		averageData.getChildren().addAll(studentLab, studentProject, studentTest, studentOverall, studentWeighted);
-		return averageData;
-	}
-	
-	private HBox setStudentLabAverage() {
-		HBox labBox = new HBox();
-		Label labLabel = new Label("Lab average: ");
-		Text studentLabAverage = new Text("");
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentLabAverage.setText((String) newValue); 
-        	}
-        });
-		labLabel.setFont(Font.font("Verdana", 15));
-		studentLabAverage.setFont(Font.font("Verdana", 15));
-		labBox.getChildren().addAll(labLabel, studentLabAverage);
-		return labBox;
-	}
-	
-	private HBox setStudentProjectAverage() {
-		HBox projectBox = new HBox();
-		Label projectLabel = new Label("Project average: ");
-		Text studentProjectAverage = new Text("");
-		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentProjectAverage.setText((String) newValue); 
-        	}
-        });
-		projectLabel.setFont(Font.font("Verdana", 15));
-		studentProjectAverage.setFont(Font.font("Verdana", 15));
-		projectBox.getChildren().addAll(projectLabel, studentProjectAverage);
-		return projectBox;
-	}
-	
-	private HBox setStudentTestAverage() {
-		HBox testBox = new HBox();
-		Label testLabel = new Label("Test average: ");
-		Text studentTestAverage = new Text("");
-		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentTestAverage.setText((String) newValue); 
-        	}
-        });
-		testLabel.setFont(Font.font("Verdana", 15));
-		studentTestAverage.setFont(Font.font("Verdana", 15));
-		testBox.getChildren().addAll(testLabel, studentTestAverage);
-		return testBox;
-	}
-	
-	private HBox setStudentOverallAverage() {
-		HBox straightAverageBox = new HBox();
-		Label straightAverageLabel = new Label("Straight average: ");
-		Text studentOverallAverage = new Text("");
-		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentOverallAverage.setText((String) newValue); 
-        	}
-        });
-		straightAverageLabel.setFont(Font.font("Verdana", 15));
-		studentOverallAverage.setFont(Font.font("Verdana", 15));
-		straightAverageBox.getChildren().addAll(straightAverageLabel, studentOverallAverage);
-		return straightAverageBox;
-	}
-	
-	private HBox setStudentWeightedAverage() {
-		HBox weightedAverageBox = new HBox();
-		Label weightedAverageLabel = new Label("Weighted average: ");
-		Text studentWeightedAverage = new Text("");
-		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentWeightedAverage.setText((String) newValue); 
-        	}
-        });
-		weightedAverageLabel.setFont(Font.font("Verdana", 15));
-		studentWeightedAverage.setFont(Font.font("Verdana", 15));
-		weightedAverageBox.getChildren().addAll(weightedAverageLabel, studentWeightedAverage);
-		return weightedAverageBox;
-	}
-	
-	private Student getStudent() {
-		return GradeBookPane.this.theClassroom.getStudentList().get(0);
 	}
 	
 	private BarChart<String, Number> setBarGraph() {
@@ -347,6 +249,104 @@ public class GradeBookPane extends Pane {
         	}
         });
 		return weightedData;
+	}
+	
+	private VBox showStudentAverages() {
+		VBox averageData = new VBox();
+		HBox studentLab = this.setStudentLabAverage();
+		HBox studentProject = this.setStudentProjectAverage();
+		HBox studentTest = this.setStudentTestAverage();
+		HBox studentOverall = this.setStudentOverallAverage();
+		HBox studentWeighted = this.setStudentWeightedAverage();
+		averageData.setSpacing(15);
+		averageData.setPadding(new Insets(0, 0, 15, 15));
+		
+		averageData.getChildren().addAll(studentLab, studentProject, studentTest, studentOverall, studentWeighted);
+		return averageData;
+	}
+	
+	private HBox setStudentLabAverage() {
+		HBox labBox = new HBox();
+		Label labLabel = new Label("Lab average: ");
+		Text studentLabAverage = new Text("");
+		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentLabAverage.setText((String) newValue); 
+        	}
+        });
+		labLabel.setFont(Font.font("Verdana", 15));
+		studentLabAverage.setFont(Font.font("Verdana", 15));
+		labBox.getChildren().addAll(labLabel, studentLabAverage);
+		return labBox;
+	}
+	
+	private HBox setStudentProjectAverage() {
+		HBox projectBox = new HBox();
+		Label projectLabel = new Label("Project average: ");
+		Text studentProjectAverage = new Text("");
+		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentProjectAverage.setText((String) newValue); 
+        	}
+        });
+		projectLabel.setFont(Font.font("Verdana", 15));
+		studentProjectAverage.setFont(Font.font("Verdana", 15));
+		projectBox.getChildren().addAll(projectLabel, studentProjectAverage);
+		return projectBox;
+	}
+	
+	private HBox setStudentTestAverage() {
+		HBox testBox = new HBox();
+		Label testLabel = new Label("Test average: ");
+		Text studentTestAverage = new Text("");
+		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentTestAverage.setText((String) newValue); 
+        	}
+        });
+		testLabel.setFont(Font.font("Verdana", 15));
+		studentTestAverage.setFont(Font.font("Verdana", 15));
+		testBox.getChildren().addAll(testLabel, studentTestAverage);
+		return testBox;
+	}
+	
+	private HBox setStudentOverallAverage() {
+		HBox straightAverageBox = new HBox();
+		Label straightAverageLabel = new Label("Straight average: ");
+		Text studentOverallAverage = new Text("");
+		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentOverallAverage.setText((String) newValue); 
+        	}
+        });
+		straightAverageLabel.setFont(Font.font("Verdana", 15));
+		studentOverallAverage.setFont(Font.font("Verdana", 15));
+		straightAverageBox.getChildren().addAll(straightAverageLabel, studentOverallAverage);
+		return straightAverageBox;
+	}
+	
+	private HBox setStudentWeightedAverage() {
+		HBox weightedAverageBox = new HBox();
+		Label weightedAverageLabel = new Label("Weighted average: ");
+		Text studentWeightedAverage = new Text("");
+		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentWeightedAverage.setText((String) newValue); 
+        	}
+        });
+		weightedAverageLabel.setFont(Font.font("Verdana", 15));
+		studentWeightedAverage.setFont(Font.font("Verdana", 15));
+		weightedAverageBox.getChildren().addAll(weightedAverageLabel, studentWeightedAverage);
+		return weightedAverageBox;
+	}
+	
+	private Student getStudent() {
+		return GradeBookPane.this.theClassroom.getStudentList().get(0);
 	}
 	
 	class FileReader {
