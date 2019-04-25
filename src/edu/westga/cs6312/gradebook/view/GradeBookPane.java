@@ -247,6 +247,7 @@ public class GradeBookPane extends Pane {
 		yAxis.setUpperBound(100);
 		yAxis.setLowerBound(0);
 		BarChart<String, Number> averageChart = new BarChart<String, Number>(xAxis, yAxis);
+		averageChart.setAnimated(false);
 		
 		XYChart.Series<String, Number> labData = this.getLabBar();
 		XYChart.Series<String, Number> projectData = this.getProjectsBar();
