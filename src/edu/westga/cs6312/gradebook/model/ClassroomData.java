@@ -155,7 +155,7 @@ public class ClassroomData {
 	 * Returns the current student
 	 * @return	the current student
 	 */
-	public Student getStudent() {
+	public Student getCurrentStudent() {
 		return this.currentStudent;
 	}
 	
