@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @version 04212019
  *
  */
-public class Student {
+public class Student implements Comparable<Student> {
 	private LabData labGrades;
 	private ProjectData projectGrades;
 	private TestData testGrades;
@@ -150,5 +150,11 @@ public class Student {
 			totalPoints += current;
 		}
 		return totalPoints;
+	}
+	
+	//Write JUnit test
+	@Override
+	public int compareTo(Student studentB) {
+		return this.getLastName().compareTo(studentB.getLastName());
 	}
 }
