@@ -415,7 +415,7 @@ public class GradeBookPane extends Pane {
 				inFile.nextLine();
 				while (inFile.hasNext()) {
 					try {
-						String[] studentData = inFile.nextLine().split(",");
+						String[] studentData = inFile.nextLine().toUpperCase().split(",");
 						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
 						GradeBookPane.this.theClassroom.setCurrentStudent(GradeBookPane.this.theClassroom.getStudentList().get(currentStudentIndex));
 						for (int current = 3; current < studentData.length; current++) {
