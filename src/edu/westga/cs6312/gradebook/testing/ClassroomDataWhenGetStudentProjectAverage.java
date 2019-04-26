@@ -18,8 +18,8 @@ class ClassroomDataWhenGetStudentProjectAverage {
 	@Test
 	void testWithThreeProjectGrades() {
 		ClassroomData theClassroom = new ClassroomData();
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theClassroom.addAssignment(1,  10);
 		theClassroom.addAssignment(1,  10);
 		theClassroom.addAssignment(1,  10);
@@ -33,8 +33,8 @@ class ClassroomDataWhenGetStudentProjectAverage {
 	@Test
 	void testWithFiveProjectGrades() {
 		ClassroomData theClassroom = new ClassroomData();
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theClassroom.addAssignment(1,  10);
 		theClassroom.addAssignment(1,  10);
 		theClassroom.addAssignment(1,  10);

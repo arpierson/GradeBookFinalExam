@@ -18,8 +18,8 @@ class ClassroomDataWhenGetStudentLabAverage {
 	@Test
 	void testWithThreeLabGrades() {
 		ClassroomData theClassroom = new ClassroomData();
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theClassroom.addAssignment(0,  10);
 		theClassroom.addAssignment(0,  10);
 		theClassroom.addAssignment(0,  10);
@@ -33,8 +33,8 @@ class ClassroomDataWhenGetStudentLabAverage {
 	@Test
 	void testWithFiveLabGrades() {
 		ClassroomData theClassroom = new ClassroomData();
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theClassroom.addAssignment(0,  10);
 		theClassroom.addAssignment(0,  10);
 		theClassroom.addAssignment(0,  10);

@@ -1,8 +1,11 @@
-package edu.westga.cs6312.gradebook.model;
+package edu.westga.cs6312.gradebook.testing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
+
+import edu.westga.cs6312.gradebook.model.ClassroomData;
+import edu.westga.cs6312.gradebook.model.Student;
 
 /**
  * 

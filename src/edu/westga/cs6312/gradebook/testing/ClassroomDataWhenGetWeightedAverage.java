@@ -27,8 +27,8 @@ class ClassroomDataWhenGetWeightedAverage {
 		theClassroom.addAssignment(2, 100);
 		theClassroom.addAssignment(2, 100);
 		theClassroom.addAssignment(2, 100);
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theStudent.addGrade(0, 7);
 		theStudent.addGrade(0, 10);
 		theStudent.addGrade(0, 8);
@@ -56,8 +56,8 @@ class ClassroomDataWhenGetWeightedAverage {
 		theClassroom.addAssignment(2, 100);
 		theClassroom.addAssignment(2, 100);
 		theClassroom.addAssignment(2, 100);
-		theClassroom.addStudent(1234, "Allen", "Pierson");
-		Student theStudent = theClassroom.getStudent(1234);
+		theClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
+		Student theStudent = theClassroom.getCurrentStudent();
 		theStudent.addGrade(0, 10);
 		theStudent.addGrade(0, 8);
 		theStudent.addGrade(0, 8);
