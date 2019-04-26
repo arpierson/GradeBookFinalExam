@@ -13,6 +13,7 @@ public class ClassroomData {
 	private ArrayList<Double> projectAssignmentList;
 	private ArrayList<Double> testAssignmentList;
 	private ArrayList<Student> studentList;
+	private Student currentStudent;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variables
@@ -22,6 +23,7 @@ public class ClassroomData {
 		this.projectAssignmentList = new ArrayList<Double>();
 		this.testAssignmentList = new ArrayList<Double>();
 		this.studentList = new ArrayList<Student>();
+		this.currentStudent = null;
 	}
 	
 	/**
@@ -139,18 +141,22 @@ public class ClassroomData {
 	}
 	
 	/**
-	 * Returns a student from the student roster if there is a matching ID number
-	 * @param studentID	the student's ID number that is being searched for
-	 * @return	Student whose ID number == studentID param
+	 * Sets the current student in the classroom
+	 * @param theStudent	the current student
 	 */
-	public Student getStudent(int studentID) {
-		Student theStudent = null;
-		for (Student current : this.studentList) {
-			if (studentID == current.getIdNumber()) {
-				theStudent = current;
-			}
+	public void setCurrentStudent(Student theStudent) {
+		if (theStudent == null) {
+			throw new IllegalArgumentException("Student cannot be null");
 		}
-		return theStudent;
+		this.currentStudent = theStudent;
+	}
+	
+	/**
+	 * Returns the current student
+	 * @return	the current student
+	 */
+	public Student getStudent() {
+		return this.currentStudent;
 	}
 	
 	/**
