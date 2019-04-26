@@ -152,7 +152,6 @@ public class Student implements Comparable<Student> {
 		return totalPoints;
 	}
 	
-	//Write JUnit test
 	@Override
 	public int compareTo(Student studentB) {
 		return this.getLastName().compareTo(studentB.getLastName());
