@@ -38,7 +38,7 @@ class ClassroomDataWhenGetWeightedAverage {
 		theStudent.addGrade(2, 100);
 		theStudent.addGrade(2, 0);
 		theStudent.addGrade(2, 95);
-		double result = theClassroom.getStudentWeightedAverage(theStudent);
+		double result = theClassroom.getStudentWeightedAverage();
 		assertEquals(75.2, result);
 	}
 
@@ -69,7 +69,7 @@ class ClassroomDataWhenGetWeightedAverage {
 		theStudent.addGrade(2, 0);
 		theStudent.addGrade(2, 95);
 		theStudent.addGrade(2, 100);
-		double result = theClassroom.getStudentWeightedAverage(theStudent);
+		double result = theClassroom.getStudentWeightedAverage();
 		assertEquals(82.3, result);
 	}
 }

@@ -26,7 +26,7 @@ class ClassroomDataWhenGetStudentTestAverage {
 		theStudent.addGrade(2, 9);
 		theStudent.addGrade(2,  8.5);
 		theStudent.addGrade(2,  7);
-		double result = theClassroom.getStudentTestAverage(theStudent);
+		double result = theClassroom.getStudentTestAverage();
 		assertEquals(81.7, result);
 	}
 
@@ -45,7 +45,7 @@ class ClassroomDataWhenGetStudentTestAverage {
 		theStudent.addGrade(2,  7);
 		theStudent.addGrade(2,  10);
 		theStudent.addGrade(2,  0);
-		double result = theClassroom.getStudentTestAverage(theStudent);
+		double result = theClassroom.getStudentTestAverage();
 		assertEquals(69.0, result);
 	}
 }

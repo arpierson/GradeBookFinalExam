@@ -38,7 +38,7 @@ class ClassroomDataWhenGetStudentOverallAverage {
 		theStudent.addGrade(2, 100);
 		theStudent.addGrade(2, 0);
 		theStudent.addGrade(2, 95);
-		double result = theClassroom.getStudentOverallAverage(theStudent);
+		double result = theClassroom.getStudentOverallAverage();
 		assertEquals(74.8, result);
 	}
 
@@ -69,7 +69,7 @@ class ClassroomDataWhenGetStudentOverallAverage {
 		theStudent.addGrade(2, 0);
 		theStudent.addGrade(2, 95);
 		theStudent.addGrade(2, 100);
-		double result = theClassroom.getStudentOverallAverage(theStudent);
+		double result = theClassroom.getStudentOverallAverage();
 		assertEquals(81.3, result);
 	}
 }
