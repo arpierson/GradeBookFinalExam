@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 import edu.westga.cs6312.gradebook.model.ClassroomData;
 import edu.westga.cs6312.gradebook.model.Student;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
@@ -50,6 +52,7 @@ public class GradeBookPane extends Pane {
 	private StringProperty studentTestAverageProperty;
 	private StringProperty studentOverallAverageProperty;
 	private StringProperty studentWeightedAverageProperty;
+	private ObjectProperty<Student> currentStudentProperty;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -63,6 +66,7 @@ public class GradeBookPane extends Pane {
 		this.studentTestAverageProperty = new SimpleStringProperty();
 		this.studentOverallAverageProperty = new SimpleStringProperty();
 		this.studentWeightedAverageProperty = new SimpleStringProperty();
+		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -345,8 +349,18 @@ public class GradeBookPane extends Pane {
 		return weightedAverageBox;
 	}
 	
-	private Student getStudent() {
-		return GradeBookPane.this.theClassroom.getStudentList().get(0);
+	private void setCurrentStudent(Student theStudent) {
+		
+	}
+	
+	private Student getCurrentStudent() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	GradeBookPane.this.theClassroom.setCurrentStudent((Student) newValue);
+        	}
+        });
+		return this.theClassroom.getCurrentStudent();
 	}
 	
 	class FileReader {
@@ -409,7 +423,8 @@ public class GradeBookPane extends Pane {
 							if (studentData[current].equals("")) {
 								gradeType++;
 							} else {
-								GradeBookPane.this.theClassroom.getStudent(Integer.valueOf(studentData[0])).addGrade(gradeType, Double.valueOf(studentData[current]));
+								//GradeBookPane.this.theClassroom.getStudent(Integer.valueOf(studentData[0])).addGrade(gradeType, Double.valueOf(studentData[current]));
+								GradeBookPane.this.getCurrentStudent().addGrade(gradeType, Double.valueOf(studentData[current]));
 							}
 						}
 						this.setStudentProperties();
@@ -424,12 +439,12 @@ public class GradeBookPane extends Pane {
 		}
 		
 		private void setStudentProperties() {
-			GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getStudent().getIdNumber() + " " + GradeBookPane.this.getStudent().getFirstName() + " " + GradeBookPane.this.getStudent().getLastName());
-			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage(GradeBookPane.this.getStudent())));
-			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage(GradeBookPane.this.getStudent())));
+			GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getCurrentStudent().getIdNumber() + " " + GradeBookPane.this.getCurrentStudent().getFirstName() + " " + GradeBookPane.this.getCurrentStudent().getLastName());
+			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage()));
+			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage()));
+			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()));
+			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()));
+			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
 		}
 
 		private void clearAverages() {
