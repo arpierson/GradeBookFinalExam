@@ -2,6 +2,7 @@ package edu.westga.cs6312.gradebook.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -349,10 +350,6 @@ public class GradeBookPane extends Pane {
 		return weightedAverageBox;
 	}
 	
-	private void setCurrentStudent(Student theStudent) {
-		
-	}
-	
 	private Student getCurrentStudent() {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
@@ -416,7 +413,7 @@ public class GradeBookPane extends Pane {
 				while (inFile.hasNext()) {
 					inFile.nextLine();
 					try {
-						GradeBookPane.this.theClassroom.getStudentList().clear();
+						//GradeBookPane.this.theClassroom.getStudentList().clear();
 						String[] studentData = inFile.nextLine().split(",");
 						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
 						for (int current = 3; current < studentData.length; current++) {
@@ -428,6 +425,12 @@ public class GradeBookPane extends Pane {
 							}
 						}
 						this.setStudentProperties();
+						Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
+						//
+						for (Student i : GradeBookPane.this.theClassroom.getStudentList()) {
+							System.out.println(i.toString());
+						}
+						//
 					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.setContentText("Data error: " + exception.getMessage());
