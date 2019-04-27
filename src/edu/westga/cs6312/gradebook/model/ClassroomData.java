@@ -221,6 +221,21 @@ public class ClassroomData {
 	}
 	
 	/**
+	 * Returns the class lab average
+	 * @return	the class lab average
+	 */
+	public double getClassLabAverage() {
+		Student temporaryStudent = this.getCurrentStudent();
+		double averageTotal = 0;
+		for (Student current : this.getStudentList()) {
+			this.setCurrentStudent(current);
+			averageTotal += this.getStudentLabAverage();
+		}
+		this.setCurrentStudent(temporaryStudent);
+		return this.roundAverage(averageTotal / this.getStudentList().size());
+	}
+	
+	/**
 	 * Returns the weighted average of the student's grades
 	 * @return	the weighted average of all grades for a student
 	 */
