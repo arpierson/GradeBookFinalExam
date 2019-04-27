@@ -203,13 +203,13 @@ public class GradeBookPane extends Pane {
 		XYChart.Series<String, Number> labData = new XYChart.Series<String, Number>();
 		labData.setName("Labs");
 		labData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	if (newValue.equals("")) {
             		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage()), GradeBookPane.this.theClassroom.getStudentLabAverage()));
             	}
         	}
         });
@@ -220,13 +220,13 @@ public class GradeBookPane extends Pane {
 		XYChart.Series<String, Number> projectData = new XYChart.Series<String, Number>();
 		projectData.setName("Projects");
 		projectData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
-		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	if (newValue.equals("")) {
             		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage()), GradeBookPane.this.theClassroom.getStudentProjectAverage()));
             	}
         	}
         });
@@ -237,13 +237,13 @@ public class GradeBookPane extends Pane {
 		XYChart.Series<String, Number> testData = new XYChart.Series<String, Number>();
 		testData.setName("Tests");
 		testData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
-		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	if (newValue.equals("")) {
             		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()), GradeBookPane.this.theClassroom.getStudentTestAverage()));
             	}
         	}
         });
@@ -254,13 +254,13 @@ public class GradeBookPane extends Pane {
 		XYChart.Series<String, Number> straightData = new XYChart.Series<String, Number>();
 		straightData.setName("Straight Average");
 		straightData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
-		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	if (newValue.equals("")) {
             		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()), GradeBookPane.this.theClassroom.getStudentOverallAverage()));
             	}
         	}
         });
@@ -271,13 +271,13 @@ public class GradeBookPane extends Pane {
 		XYChart.Series<String, Number> weightedData = new XYChart.Series<String, Number>();
 		weightedData.setName("Weighted Average");
 		weightedData.getData().add(new XYChart.Data<String, Number>(String.valueOf(0), 0));
-		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	if (newValue.equals("")) {
             		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(newValue), Double.valueOf((String) newValue)));
+            		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
             	}
         	}
         });
