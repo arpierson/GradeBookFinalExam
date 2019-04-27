@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -17,9 +16,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
@@ -94,9 +90,7 @@ public class GradeBookPane extends Pane {
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
-		//
-		mainOverlay.setRight(this.setSelectStudentMenu());
-		//
+		
 		this.getChildren().add(mainOverlay);
 	}
 	
@@ -139,6 +133,7 @@ public class GradeBookPane extends Pane {
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
             	for (Student current : GradeBookPane.this.theClassroom.getStudentList()) {
             		studentNameBox.getItems().add(current);
+            		studentNameBox.setValue(GradeBookPane.this.getCurrentStudent());
             	}
             }
         });
@@ -149,23 +144,30 @@ public class GradeBookPane extends Pane {
 		return studentNameBox;
 	}
 	
-	private Text setStudentInformationContent() {
-		Text studentName = new Text("Please select a file.");
+	private Text setWelcomeMessage() {
+		Text studentName = new Text("Please select a text file.");
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentName.setText((String) newValue.toString()); 
+                studentName.setText(""); 
             }
         });
 		studentName.setFont(Font.font("Verdana", 30));
 		return studentName;
 	}
 	
+	private HBox setStudentInformationContent() {
+		HBox studentContentBox = new HBox();
+		studentContentBox.setSpacing(30);
+		studentContentBox.getChildren().addAll(this.setSelectStudentMenu(), this.setWelcomeMessage());
+		return studentContentBox;
+	}
+	
 	private VBox setTopOfPane() {
 		VBox topContentBox = new VBox();
 		HBox studentNameBox = new HBox();
 		studentNameBox.setPadding(new Insets(10, 0, 10, 20));
-		Text studentInformation = this.setStudentInformationContent();
+		HBox studentInformation = this.setStudentInformationContent();
 		studentNameBox.getChildren().add(studentInformation);
 		topContentBox.getChildren().addAll(this.setMenuBar(), studentNameBox);
 		return topContentBox;
@@ -302,10 +304,10 @@ public class GradeBookPane extends Pane {
 		HBox labBox = new HBox();
 		Label labLabel = new Label("Lab average: ");
 		Text studentLabAverage = new Text("");
-		this.studentLabAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentLabAverage.setText((String) newValue); 
+                studentLabAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage())); 
         	}
         });
 		labLabel.setFont(Font.font("Verdana", 15));
@@ -318,10 +320,10 @@ public class GradeBookPane extends Pane {
 		HBox projectBox = new HBox();
 		Label projectLabel = new Label("Project average: ");
 		Text studentProjectAverage = new Text("");
-		this.studentProjectAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentProjectAverage.setText((String) newValue); 
+                studentProjectAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage())); 
         	}
         });
 		projectLabel.setFont(Font.font("Verdana", 15));
@@ -334,10 +336,10 @@ public class GradeBookPane extends Pane {
 		HBox testBox = new HBox();
 		Label testLabel = new Label("Test average: ");
 		Text studentTestAverage = new Text("");
-		this.studentTestAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentTestAverage.setText((String) newValue); 
+                studentTestAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage())); 
         	}
         });
 		testLabel.setFont(Font.font("Verdana", 15));
@@ -350,10 +352,10 @@ public class GradeBookPane extends Pane {
 		HBox straightAverageBox = new HBox();
 		Label straightAverageLabel = new Label("Straight average: ");
 		Text studentOverallAverage = new Text("");
-		this.studentOverallAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentOverallAverage.setText((String) newValue); 
+                studentOverallAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage())); 
         	}
         });
 		straightAverageLabel.setFont(Font.font("Verdana", 15));
@@ -366,10 +368,10 @@ public class GradeBookPane extends Pane {
 		HBox weightedAverageBox = new HBox();
 		Label weightedAverageLabel = new Label("Weighted average: ");
 		Text studentWeightedAverage = new Text("");
-		this.studentWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentWeightedAverage.setText((String) newValue); 
+                studentWeightedAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage())); 
         	}
         });
 		weightedAverageLabel.setFont(Font.font("Verdana", 15));
