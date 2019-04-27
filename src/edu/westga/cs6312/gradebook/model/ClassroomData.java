@@ -261,6 +261,21 @@ public class ClassroomData {
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 	
+	/**
+	 * Returns the class test average
+	 * @return	the class test average
+	 */
+	public double getClassTestAverage() {
+		Student temporaryStudent = this.getCurrentStudent();
+		double averageTotal = 0;
+		for (Student current : this.getStudentList()) {
+			this.setCurrentStudent(current);
+			averageTotal += this.getStudentTestAverage();
+		}
+		this.setCurrentStudent(temporaryStudent);
+		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
+	}
+	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
 		return Double.parseDouble(averageString);
