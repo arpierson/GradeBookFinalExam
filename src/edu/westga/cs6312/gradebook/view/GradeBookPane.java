@@ -2,8 +2,10 @@ package edu.westga.cs6312.gradebook.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -15,6 +17,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
@@ -29,6 +34,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -54,6 +60,8 @@ public class GradeBookPane extends Pane {
 	private StringProperty studentOverallAverageProperty;
 	private StringProperty studentWeightedAverageProperty;
 	private ObjectProperty<Student> currentStudentProperty;
+	private ObjectProperty<ArrayList<Student>> studentRosterProperty;
+	//Look into using currentStudentProperty to get stringProperties above
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -68,6 +76,7 @@ public class GradeBookPane extends Pane {
 		this.studentOverallAverageProperty = new SimpleStringProperty();
 		this.studentWeightedAverageProperty = new SimpleStringProperty();
 		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
+		this.studentRosterProperty = new SimpleObjectProperty<ArrayList<Student>>();
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -85,7 +94,9 @@ public class GradeBookPane extends Pane {
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
-		
+		//
+		mainOverlay.setRight(this.setSelectStudentMenu());
+		//
 		this.getChildren().add(mainOverlay);
 	}
 	
@@ -121,12 +132,29 @@ public class GradeBookPane extends Pane {
 		applicationInformation.showAndWait();
 	}
 	
-	private Text setStudentInformationContent() {
-		Text studentName = new Text("Please select a file.");
-		this.studentNameProperty.addListener(new ChangeListener<Object>() {
+	private ComboBox<Student> setSelectStudentMenu() {
+		ComboBox<Student> studentNameBox = new ComboBox<Student>();
+		this.studentRosterProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentName.setText((String) newValue); 
+            	for (Student current : GradeBookPane.this.theClassroom.getStudentList()) {
+            		studentNameBox.getItems().add(current);
+            	}
+            }
+        });
+		studentNameBox.setOnAction(studentSelect -> {
+			GradeBookPane.this.theClassroom.setCurrentStudent(studentNameBox.getValue());
+			GradeBookPane.this.currentStudentProperty.set(studentNameBox.getValue());
+		});
+		return studentNameBox;
+	}
+	
+	private Text setStudentInformationContent() {
+		Text studentName = new Text("Please select a file.");
+		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+                studentName.setText((String) newValue.toString()); 
             }
         });
 		studentName.setFont(Font.font("Verdana", 30));
@@ -446,6 +474,8 @@ public class GradeBookPane extends Pane {
 			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()));
 			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()));
 			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+			GradeBookPane.this.studentRosterProperty.set(GradeBookPane.this.theClassroom.getStudentList());
+			GradeBookPane.this.currentStudentProperty.set(GradeBookPane.this.theClassroom.getCurrentStudent());
 		}
 
 		private void clearAverages() {
