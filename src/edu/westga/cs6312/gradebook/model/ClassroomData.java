@@ -236,13 +236,21 @@ public class ClassroomData {
 	 * @return	the class lab average
 	 */
 	public double getClassLabAverage() {
-		Student temporaryStudent = this.getCurrentStudent();
+		Student temporaryStudent = null;
+		if (this.getCurrentStudent() != null) {
+			temporaryStudent = this.getCurrentStudent();
+		}
+	
 		double averageTotal = 0;
 		for (Student current : this.getStudentList()) {
 			this.setCurrentStudent(current);
 			averageTotal += this.getStudentLabAverage();
 		}
-		this.setCurrentStudent(temporaryStudent);
+		
+		if (temporaryStudent != null) {
+			this.setCurrentStudent(temporaryStudent);
+		}
+		
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 	
@@ -251,13 +259,19 @@ public class ClassroomData {
 	 * @return	the class project average
 	 */
 	public double getClassProjectAverage() {
-		Student temporaryStudent = this.getCurrentStudent();
+		Student temporaryStudent = null;
+		if (this.getCurrentStudent() != null) {
+			temporaryStudent = this.getCurrentStudent();
+		}
 		double averageTotal = 0;
 		for (Student current : this.getStudentList()) {
 			this.setCurrentStudent(current);
 			averageTotal += this.getStudentProjectAverage();
 		}
-		this.setCurrentStudent(temporaryStudent);
+
+		if (temporaryStudent != null) {
+			this.setCurrentStudent(temporaryStudent);
+		}
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 	
@@ -266,13 +280,19 @@ public class ClassroomData {
 	 * @return	the class test average
 	 */
 	public double getClassTestAverage() {
-		Student temporaryStudent = this.getCurrentStudent();
+		Student temporaryStudent = null;
+		if (this.getCurrentStudent() != null) {
+			temporaryStudent = this.getCurrentStudent();
+		}
 		double averageTotal = 0;
 		for (Student current : this.getStudentList()) {
 			this.setCurrentStudent(current);
 			averageTotal += this.getStudentTestAverage();
 		}
-		this.setCurrentStudent(temporaryStudent);
+
+		if (temporaryStudent != null) {
+			this.setCurrentStudent(temporaryStudent);
+		}
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 
@@ -281,13 +301,19 @@ public class ClassroomData {
 	 * @return	the class overall average
 	 */
 	public double getClassOverallAverage() {
-		Student temporaryStudent = this.getCurrentStudent();
+		Student temporaryStudent = null;
+		if (this.getCurrentStudent() != null) {
+			temporaryStudent = this.getCurrentStudent();
+		}
 		double averageTotal = 0;
 		for (Student current : this.getStudentList()) {
 			this.setCurrentStudent(current);
 			averageTotal += this.getStudentOverallAverage();
 		}
-		this.setCurrentStudent(temporaryStudent);
+
+		if (temporaryStudent != null) {
+			this.setCurrentStudent(temporaryStudent);
+		}
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 
