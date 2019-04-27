@@ -9,7 +9,9 @@ import java.util.Scanner;
 
 import edu.westga.cs6312.gradebook.model.ClassroomData;
 import edu.westga.cs6312.gradebook.model.Student;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +22,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
@@ -51,6 +54,11 @@ public class GradeBookPane extends Pane {
 	private FileReader theFileReader;
 	private ObjectProperty<Student> currentStudentProperty;
 	private ObservableList<Student> studentRoster;
+	private DoubleProperty classLabAverageProperty;
+	private DoubleProperty classProjectAverageProperty;
+	private DoubleProperty classTestAverageProperty;
+	private DoubleProperty classOverallAverageProperty;
+	private DoubleProperty classWeightedAverageProperty;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -60,6 +68,11 @@ public class GradeBookPane extends Pane {
 		this.theFileReader = new FileReader();
 		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
 		this.studentRoster = FXCollections.observableList(this.theClassroom.getStudentList());
+		this.classLabAverageProperty = new SimpleDoubleProperty(this.theClassroom.getClassLabAverage());
+		this.classProjectAverageProperty = new SimpleDoubleProperty(this.theClassroom.getClassProjectAverage());
+		this.classTestAverageProperty = new SimpleDoubleProperty(this.theClassroom.getStudentTestAverage());
+		this.classOverallAverageProperty = new SimpleDoubleProperty(this.theClassroom.getStudentOverallAverage());
+		this.classWeightedAverageProperty = new SimpleDoubleProperty(this.theClassroom.getStudentWeightedAverage());
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -73,7 +86,7 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setTopOfPane());
-		mainOverlay.setCenter(this.setBarGraph());
+		mainOverlay.setCenter(this.setStudentAverageGraph());
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
@@ -164,7 +177,20 @@ public class GradeBookPane extends Pane {
 		return topContentBox;
 	}
 	
-	private BarChart<String, Number> setBarGraph() {
+
+	private LineChart<String, Number> setClassAverageGraph() {
+		CategoryAxis xAxis = new CategoryAxis();
+		NumberAxis yAxis = new NumberAxis();
+		LineChart<String, Number> classAverageChart = new LineChart<String, Number>(xAxis, yAxis);
+		classAverageChart.getYAxis().setTickLabelsVisible(false);
+		classAverageChart.getYAxis().setOpacity(0);
+		classAverageChart.getXAxis().setTickLabelsVisible(false);
+		classAverageChart.getXAxis().setOpacity(0);
+		classAverageChart.setAnimated(false);
+		
+	}
+	
+	private BarChart<String, Number> setStudentAverageGraph() {
 		CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("Grade Categories");
 		NumberAxis yAxis = new NumberAxis();
@@ -299,6 +325,7 @@ public class GradeBookPane extends Pane {
         });
 		return weightedData;
 	}
+	//
 	
 	private VBox showStudentAverages() {
 		VBox averageData = new VBox();
