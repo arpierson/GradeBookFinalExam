@@ -221,6 +221,17 @@ public class ClassroomData {
 	}
 	
 	/**
+	 * Returns the weighted average of the student's grades
+	 * @return	the weighted average of all grades for a student
+	 */
+	public double getStudentWeightedAverage() {
+		double weightedLab = (this.getStudentLabAverage() / 100) * .2;
+		double weightedProject = (this.getStudentProjectAverage() / 100) * .35;
+		double weightedTest = (this.getStudentTestAverage() / 100) * .45;
+		return this.roundAverage(weightedLab + weightedProject + weightedTest);
+	}
+	
+	/**
 	 * Returns the class lab average
 	 * @return	the class lab average
 	 */
@@ -248,17 +259,6 @@ public class ClassroomData {
 		}
 		this.setCurrentStudent(temporaryStudent);
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
-	}
-	
-	/**
-	 * Returns the weighted average of the student's grades
-	 * @return	the weighted average of all grades for a student
-	 */
-	public double getStudentWeightedAverage() {
-		double weightedLab = (this.getStudentLabAverage() / 100) * .2;
-		double weightedProject = (this.getStudentProjectAverage() / 100) * .35;
-		double weightedTest = (this.getStudentTestAverage() / 100) * .45;
-		return this.roundAverage(weightedLab + weightedProject + weightedTest);
 	}
 	
 	private double roundAverage(double average) {
