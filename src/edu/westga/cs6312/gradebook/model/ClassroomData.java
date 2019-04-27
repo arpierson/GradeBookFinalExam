@@ -290,6 +290,17 @@ public class ClassroomData {
 		this.setCurrentStudent(temporaryStudent);
 		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
+
+	/**
+	 * Returns the weighted average of the class's grades
+	 * @return	the weighted average of the class's grades
+	 */
+	public double getClassWeightedAverage() {
+		double weightedLab = (this.getClassLabAverage() / 100) * .2;
+		double weightedProject = (this.getClassProjectAverage() / 100) * .35;
+		double weightedTest = (this.getClassTestAverage() / 100) * .45;
+		return this.roundAverage(weightedLab + weightedProject + weightedTest);
+	}
 	
 	private double roundAverage(double average) {
 		String averageString = String.format("%2.1f", (average * 100));
