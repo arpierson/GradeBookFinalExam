@@ -12,8 +12,6 @@ import edu.westga.cs6312.gradebook.model.ClassroomData;
 import edu.westga.cs6312.gradebook.model.Student;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
@@ -51,7 +49,6 @@ public class GradeBookPane extends Pane {
 	private FileReader theFileReader;
 	private ObjectProperty<Student> currentStudentProperty;
 	private ObjectProperty<ArrayList<Student>> studentRosterProperty;
-	//Look into using currentStudentProperty to get stringProperties above
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -467,44 +464,6 @@ public class GradeBookPane extends Pane {
 				alert.showAndWait();
 			}
 		}
-		
-		/**
-		private void readStudentData(File theFile) throws FileNotFoundException {
-			int gradeType = 0;
-			int currentStudentIndex = 0;
-			try (Scanner inFile = new Scanner(theFile)) {
-				inFile.nextLine();
-				while (inFile.hasNext()) {
-					try {
-						String[] studentData = inFile.nextLine().toUpperCase().split(",");
-						//
-						for (String i : studentData) {
-							System.out.println(currentStudentIndex + " " + i);
-						}
-						//
-						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
-						GradeBookPane.this.theClassroom.setCurrentStudent(GradeBookPane.this.theClassroom.getStudentList().get(currentStudentIndex));
-						currentStudentIndex++;
-						for (int current = 3; current < studentData.length; current++) {
-							if (studentData[current].equals("")) {
-								gradeType++;
-							} else {
-								GradeBookPane.this.getCurrentStudent().addGrade(gradeType, Double.valueOf(studentData[current]));
-							}
-						}
-						gradeType = 0;
-					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
-						Alert alert = new Alert(AlertType.WARNING);
-						alert.setContentText("Data error: " + exception.getMessage());
-						alert.showAndWait();
-						//this.clearAverages();
-					}
-				}
-			}
-			Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
-			this.setStudentProperties();
-		}
-		**/
 		
 		private void readStudentData(File theFile) throws FileNotFoundException {
 			int currentStudentIndex = 0;
