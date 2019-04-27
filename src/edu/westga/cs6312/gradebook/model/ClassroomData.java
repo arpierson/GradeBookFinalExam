@@ -232,7 +232,7 @@ public class ClassroomData {
 			averageTotal += this.getStudentLabAverage();
 		}
 		this.setCurrentStudent(temporaryStudent);
-		return this.roundAverage(averageTotal / this.getStudentList().size());
+		return this.roundAverage(averageTotal / this.getStudentList().size() / 100);
 	}
 	
 	/**
