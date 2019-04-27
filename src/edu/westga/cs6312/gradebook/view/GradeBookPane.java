@@ -49,12 +49,6 @@ import javafx.stage.FileChooser;
 public class GradeBookPane extends Pane {
 	private ClassroomData theClassroom;
 	private FileReader theFileReader;
-	private StringProperty studentNameProperty;
-	private StringProperty studentLabAverageProperty;
-	private StringProperty studentProjectAverageProperty;
-	private StringProperty studentTestAverageProperty;
-	private StringProperty studentOverallAverageProperty;
-	private StringProperty studentWeightedAverageProperty;
 	private ObjectProperty<Student> currentStudentProperty;
 	private ObjectProperty<ArrayList<Student>> studentRosterProperty;
 	//Look into using currentStudentProperty to get stringProperties above
@@ -65,12 +59,6 @@ public class GradeBookPane extends Pane {
 	public GradeBookPane() {
 		this.theClassroom = new ClassroomData();
 		this.theFileReader = new FileReader();
-		this.studentNameProperty = new SimpleStringProperty();
-		this.studentLabAverageProperty = new SimpleStringProperty();
-		this.studentProjectAverageProperty = new SimpleStringProperty();
-		this.studentTestAverageProperty = new SimpleStringProperty();
-		this.studentOverallAverageProperty = new SimpleStringProperty();
-		this.studentWeightedAverageProperty = new SimpleStringProperty();
 		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
 		this.studentRosterProperty = new SimpleObjectProperty<ArrayList<Student>>();
 		this.setPaneSize();
@@ -211,8 +199,12 @@ public class GradeBookPane extends Pane {
             	if (newValue.equals("")) {
             		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage()), GradeBookPane.this.theClassroom.getStudentLabAverage()));
-            	}
+            		try {
+            			labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		} catch (IllegalArgumentException iae) {
+            			labData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            		}            	
+        		}
         	}
         });
 		return labData;
@@ -228,8 +220,12 @@ public class GradeBookPane extends Pane {
             	if (newValue.equals("")) {
             		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage()), GradeBookPane.this.theClassroom.getStudentProjectAverage()));
-            	}
+            		try {
+            			projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		} catch (IllegalArgumentException iae) {
+            			projectData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            		}            	
+        		}
         	}
         });
 		return projectData;
@@ -245,8 +241,12 @@ public class GradeBookPane extends Pane {
             	if (newValue.equals("")) {
             		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()), GradeBookPane.this.theClassroom.getStudentTestAverage()));
-            	}
+            		try {
+            			testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		} catch (IllegalArgumentException iae) {
+            			testData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            		}            	
+        		}
         	}
         });
 		return testData;
@@ -262,8 +262,12 @@ public class GradeBookPane extends Pane {
             	if (newValue.equals("")) {
             		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()), GradeBookPane.this.theClassroom.getStudentOverallAverage()));
-            	}
+            		try {
+            			straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		} catch (IllegalArgumentException iae) {
+            			straightData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            		}            	
+        		}
         	}
         });
 		return straightData;
@@ -279,7 +283,14 @@ public class GradeBookPane extends Pane {
             	if (newValue.equals("")) {
             		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
             	} else {
-            		weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		try {
+            			weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()), GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
+            		} catch (IllegalArgumentException iae) {
+            			weightedData.getData().set(0, new XYChart.Data<String, Number>(String.valueOf(0), 0));
+            			Alert alert = new Alert(AlertType.WARNING);
+						alert.setContentText("Data error: " + iae.getMessage());
+						alert.showAndWait();
+            		}
             	}
         	}
         });
@@ -307,7 +318,11 @@ public class GradeBookPane extends Pane {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentLabAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage())); 
+            	try {
+	                studentLabAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage())); 
+            	} catch (IllegalArgumentException iae) {
+        			studentLabAverage.setText(iae.getMessage());
+        		}
         	}
         });
 		labLabel.setFont(Font.font("Verdana", 15));
@@ -323,7 +338,11 @@ public class GradeBookPane extends Pane {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentProjectAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage())); 
+            	try {
+            		studentProjectAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage())); 
+            	} catch (IllegalArgumentException iae) {
+        			studentProjectAverage.setText(iae.getMessage());
+        		}
         	}
         });
 		projectLabel.setFont(Font.font("Verdana", 15));
@@ -339,7 +358,11 @@ public class GradeBookPane extends Pane {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentTestAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage())); 
+            	try {
+            		studentTestAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage())); 
+            	} catch (IllegalArgumentException iae) {
+        			studentTestAverage.setText(iae.getMessage());
+        		}
         	}
         });
 		testLabel.setFont(Font.font("Verdana", 15));
@@ -355,7 +378,11 @@ public class GradeBookPane extends Pane {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentOverallAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage())); 
+            	try {
+            		studentOverallAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage())); 
+            	} catch (IllegalArgumentException iae) {
+        			studentOverallAverage.setText(iae.getMessage());
+        		}            
         	}
         });
 		straightAverageLabel.setFont(Font.font("Verdana", 15));
@@ -371,7 +398,11 @@ public class GradeBookPane extends Pane {
 		this.currentStudentProperty.addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-                studentWeightedAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage())); 
+            	try {
+            		studentWeightedAverage.setText(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage())); 
+            	} catch (IllegalArgumentException iae) {
+            		studentWeightedAverage.setText(iae.getMessage());
+        		}
         	}
         });
 		weightedAverageLabel.setFont(Font.font("Verdana", 15));
@@ -430,14 +461,14 @@ public class GradeBookPane extends Pane {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setContentText("Data Format error on line 1" + exception.getMessage());
 				alert.showAndWait();
-			} catch (NullPointerException npe) {
-			} catch (FileNotFoundException | NoSuchElementException exception) {
+			} catch (FileNotFoundException | NoSuchElementException | NullPointerException exception) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setContentText("Incorrect file selection.");
 				alert.showAndWait();
 			}
 		}
 		
+		/**
 		private void readStudentData(File theFile) throws FileNotFoundException {
 			int gradeType = 0;
 			int currentStudentIndex = 0;
@@ -446,8 +477,14 @@ public class GradeBookPane extends Pane {
 				while (inFile.hasNext()) {
 					try {
 						String[] studentData = inFile.nextLine().toUpperCase().split(",");
+						//
+						for (String i : studentData) {
+							System.out.println(currentStudentIndex + " " + i);
+						}
+						//
 						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
 						GradeBookPane.this.theClassroom.setCurrentStudent(GradeBookPane.this.theClassroom.getStudentList().get(currentStudentIndex));
+						currentStudentIndex++;
 						for (int current = 3; current < studentData.length; current++) {
 							if (studentData[current].equals("")) {
 								gradeType++;
@@ -455,38 +492,75 @@ public class GradeBookPane extends Pane {
 								GradeBookPane.this.getCurrentStudent().addGrade(gradeType, Double.valueOf(studentData[current]));
 							}
 						}
-						currentStudentIndex++;
 						gradeType = 0;
 					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 						Alert alert = new Alert(AlertType.WARNING);
 						alert.setContentText("Data error: " + exception.getMessage());
 						alert.showAndWait();
-						this.clearAverages();
+						//this.clearAverages();
 					}
 				}
 			}
 			Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
 			this.setStudentProperties();
 		}
+		**/
+		
+		private void readStudentData(File theFile) throws FileNotFoundException {
+			int currentStudentIndex = 0;
+			try (Scanner inFile = new Scanner(theFile)) {
+				inFile.nextLine();
+				while (inFile.hasNext()) {
+					try {
+						String[] studentData = inFile.nextLine().toUpperCase().split(",");
+						GradeBookPane.this.theClassroom.addStudent(Integer.valueOf(studentData[0]), studentData[1], studentData[2]);
+						GradeBookPane.this.theClassroom.setCurrentStudent(GradeBookPane.this.theClassroom.getStudentList().get(currentStudentIndex));
+						currentStudentIndex++;
+					} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
+						Alert alert = new Alert(AlertType.WARNING);
+						alert.setContentText("Data error: " + exception.getMessage());
+						alert.showAndWait();
+					}
+				}
+			}
+			this.readStudentGrades(theFile);
+			this.setStudentProperties();
+		}
+		
+		private void readStudentGrades(File theFile) throws FileNotFoundException {
+			int gradeType = 0;
+			int currentStudentIndex = 0;
+			try (Scanner inFile = new Scanner(theFile)) {
+				inFile.nextLine();
+				while (inFile.hasNext()) {
+					try {
+						GradeBookPane.this.theClassroom.setCurrentStudent(GradeBookPane.this.theClassroom.getStudentList().get(currentStudentIndex));
+						currentStudentIndex++;
+						String[] studentData = inFile.nextLine().split(",");
+						try {
+							for (int current = 3; current < studentData.length; current++) {
+								if (studentData[current].equals("")) {
+									gradeType++;
+								} else {
+									GradeBookPane.this.getCurrentStudent().addGrade(gradeType, Double.valueOf(studentData[current]));
+								}
+							}
+						} catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
+							Alert alert = new Alert(AlertType.WARNING);
+							alert.setContentText("Data error: " + exception.getMessage());
+							alert.showAndWait();
+						}
+					} finally {
+						gradeType = 0;
+					}
+				}
+			}
+			Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
+		}
 		
 		private void setStudentProperties() {
-			GradeBookPane.this.studentNameProperty.set(GradeBookPane.this.getCurrentStudent().getIdNumber() + " " + GradeBookPane.this.getCurrentStudent().getFirstName() + " " + GradeBookPane.this.getCurrentStudent().getLastName());
-			GradeBookPane.this.studentLabAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentLabAverage()));
-			GradeBookPane.this.studentProjectAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentProjectAverage()));
-			GradeBookPane.this.studentTestAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentTestAverage()));
-			GradeBookPane.this.studentOverallAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentOverallAverage()));
-			GradeBookPane.this.studentWeightedAverageProperty.set(String.valueOf(GradeBookPane.this.theClassroom.getStudentWeightedAverage()));
 			GradeBookPane.this.studentRosterProperty.set(GradeBookPane.this.theClassroom.getStudentList());
 			GradeBookPane.this.currentStudentProperty.set(GradeBookPane.this.theClassroom.getCurrentStudent());
-		}
-
-		private void clearAverages() {
-			GradeBookPane.this.studentNameProperty.set("Please select a file.");
-			GradeBookPane.this.studentLabAverageProperty.set("");
-			GradeBookPane.this.studentProjectAverageProperty.set("");
-			GradeBookPane.this.studentTestAverageProperty.set("");
-			GradeBookPane.this.studentOverallAverageProperty.set("");
-			GradeBookPane.this.studentWeightedAverageProperty.set("");
 		}
 	}
 }
