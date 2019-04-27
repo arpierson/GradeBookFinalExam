@@ -2,7 +2,6 @@ package edu.westga.cs6312.gradebook.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
@@ -14,6 +13,9 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
@@ -48,7 +50,7 @@ public class GradeBookPane extends Pane {
 	private ClassroomData theClassroom;
 	private FileReader theFileReader;
 	private ObjectProperty<Student> currentStudentProperty;
-	private ObjectProperty<ArrayList<Student>> studentRosterProperty;
+	private ObservableList<Student> studentRoster;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -57,7 +59,7 @@ public class GradeBookPane extends Pane {
 		this.theClassroom = new ClassroomData();
 		this.theFileReader = new FileReader();
 		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
-		this.studentRosterProperty = new SimpleObjectProperty<ArrayList<Student>>();
+		this.studentRoster = FXCollections.observableList(this.theClassroom.getStudentList());
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -113,18 +115,22 @@ public class GradeBookPane extends Pane {
 	
 	private ComboBox<Student> setSelectStudentMenu() {
 		ComboBox<Student> studentNameBox = new ComboBox<Student>();
-		this.studentRosterProperty.addListener(new ChangeListener<Object>() {
-            @Override
-            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
-            	for (Student current : GradeBookPane.this.theClassroom.getStudentList()) {
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				studentNameBox.getItems().clear();
+				for (Student current : GradeBookPane.this.studentRoster) {
             		studentNameBox.getItems().add(current);
-            		studentNameBox.setValue(GradeBookPane.this.getCurrentStudent());
             	}
-            }
-        });
+				studentNameBox.setValue(GradeBookPane.this.theClassroom.getCurrentStudent());
+			}
+		});
+		
 		studentNameBox.setOnAction(studentSelect -> {
-			GradeBookPane.this.theClassroom.setCurrentStudent(studentNameBox.getValue());
-			GradeBookPane.this.currentStudentProperty.set(studentNameBox.getValue());
+			if (studentNameBox.getValue() != null) {
+				GradeBookPane.this.theClassroom.setCurrentStudent(studentNameBox.getValue());
+				GradeBookPane.this.currentStudentProperty.set(studentNameBox.getValue());
+			}
 		});
 		return studentNameBox;
 	}
@@ -453,6 +459,7 @@ public class GradeBookPane extends Pane {
 					}
 				}
 				GradeBookPane.this.theClassroom.getStudentList().clear();
+				GradeBookPane.this.studentRoster.clear();
 				this.readStudentData(theFile);
 			}  catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 				Alert alert = new Alert(AlertType.WARNING);
@@ -483,7 +490,10 @@ public class GradeBookPane extends Pane {
 				}
 			}
 			this.readStudentGrades(theFile);
-			this.setStudentProperties();
+			GradeBookPane.this.currentStudentProperty.set(GradeBookPane.this.theClassroom.getCurrentStudent());
+			for (int current = 0; current < GradeBookPane.this.theClassroom.getStudentList().size(); current++) {
+				GradeBookPane.this.studentRoster.set(current, GradeBookPane.this.theClassroom.getStudentList().get(current));
+			}
 		}
 		
 		private void readStudentGrades(File theFile) throws FileNotFoundException {
@@ -515,11 +525,6 @@ public class GradeBookPane extends Pane {
 				}
 			}
 			Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
-		}
-		
-		private void setStudentProperties() {
-			GradeBookPane.this.studentRosterProperty.set(GradeBookPane.this.theClassroom.getStudentList());
-			GradeBookPane.this.currentStudentProperty.set(GradeBookPane.this.theClassroom.getCurrentStudent());
 		}
 	}
 }
