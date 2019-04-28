@@ -33,10 +33,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -80,10 +77,7 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setTopOfPane());
-		//mainOverlay.setCenter(this.setStudentAverageGraph());
-		//
 		mainOverlay.setCenter(this.setGraphOveralayPane());
-		//
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
