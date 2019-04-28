@@ -349,8 +349,12 @@ public class GradeBookPane extends Pane {
 		this.studentRoster.addListener(new ListChangeListener<Student>() {
 			@Override
 			public void onChanged(Change<? extends Student> newList) {
-				labLine.setVisible(true);
-				labLineData.setYValue(GradeBookPane.this.theClassroom.getClassLabAverage());
+				try {
+					labLine.setVisible(true);
+					labLineData.setYValue(GradeBookPane.this.theClassroom.getClassLabAverage());
+				} catch (IllegalArgumentException iae) {
+					labLineData.setYValue(0);
+				}
 			}
 		});
 		
@@ -372,8 +376,12 @@ public class GradeBookPane extends Pane {
 		this.studentRoster.addListener(new ListChangeListener<Student>() {
 			@Override
 			public void onChanged(Change<? extends Student> newList) {
-				projectLine.setVisible(true);
-				projectLineData.setYValue(GradeBookPane.this.theClassroom.getClassProjectAverage());
+				try {
+					projectLine.setVisible(true);
+					projectLineData.setYValue(GradeBookPane.this.theClassroom.getClassProjectAverage());
+				} catch (IllegalArgumentException iae) {
+					projectLineData.setYValue(0);
+				}
 			}
 		});
 		
@@ -395,8 +403,12 @@ public class GradeBookPane extends Pane {
 		this.studentRoster.addListener(new ListChangeListener<Student>() {
 			@Override
 			public void onChanged(Change<? extends Student> newList) {
-				testLine.setVisible(true);
-				testLineData.setYValue(GradeBookPane.this.theClassroom.getClassTestAverage());
+				try {
+					testLine.setVisible(true);
+					testLineData.setYValue(GradeBookPane.this.theClassroom.getClassTestAverage());
+				} catch (IllegalArgumentException iae) {
+					testLineData.setYValue(0);
+				}
 			}
 		});
 		
@@ -418,8 +430,12 @@ public class GradeBookPane extends Pane {
 		this.studentRoster.addListener(new ListChangeListener<Student>() {
 			@Override
 			public void onChanged(Change<? extends Student> newList) {
-				overallLine.setVisible(true);
-				overallLineData.setYValue(GradeBookPane.this.theClassroom.getClassOverallAverage());
+				try {
+					overallLine.setVisible(true);
+					overallLineData.setYValue(GradeBookPane.this.theClassroom.getClassOverallAverage());
+				} catch (IllegalArgumentException iae) {
+					overallLineData.setYValue(0);
+				}
 			}
 		});
 		
@@ -441,8 +457,12 @@ public class GradeBookPane extends Pane {
 		this.studentRoster.addListener(new ListChangeListener<Student>() {
 			@Override
 			public void onChanged(Change<? extends Student> newList) {
-				weightedLine.setVisible(true);
-				weightedLineData.setYValue(GradeBookPane.this.theClassroom.getClassWeightedAverage());
+				try {
+					weightedLine.setVisible(true);
+					weightedLineData.setYValue(GradeBookPane.this.theClassroom.getClassWeightedAverage());
+				} catch (IllegalArgumentException iae) {
+					weightedLineData.setYValue(0);
+				}
 			}
 		});
 		
