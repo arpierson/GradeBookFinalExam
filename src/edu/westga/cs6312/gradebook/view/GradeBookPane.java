@@ -20,6 +20,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
@@ -32,10 +33,16 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -73,7 +80,10 @@ public class GradeBookPane extends Pane {
 		mainOverlay.prefWidthProperty().bind(this.widthProperty());
 		mainOverlay.prefHeightProperty().bind(this.heightProperty());
 		mainOverlay.setTop(this.setTopOfPane());
-		mainOverlay.setCenter(this.setStudentAverageGraph());
+		//mainOverlay.setCenter(this.setStudentAverageGraph());
+		//
+		mainOverlay.setCenter(this.setGraphOveralayPane());
+		//
 		VBox bottomContent = this.showStudentAverages();
 		BorderPane.setAlignment(bottomContent, Pos.TOP_CENTER);
 		mainOverlay.setBottom(bottomContent);
@@ -298,6 +308,158 @@ public class GradeBookPane extends Pane {
         	}
         });
 		return weightedData;
+	}
+
+	private LineChart<Number, Number> setClassAverageGraph() {
+		NumberAxis xAxis = new NumberAxis();
+		NumberAxis yAxis = new NumberAxis();
+		xAxis.setTickMarkVisible(false);
+		xAxis.setTickLabelsVisible(false);
+		xAxis.setOpacity(0);
+		yAxis.setTickMarkVisible(false);
+		yAxis.setOpacity(0);
+		yAxis.setAutoRanging(false);
+		yAxis.setUpperBound(100);
+		LineChart<Number, Number> classAverageChart = new LineChart<Number, Number>(xAxis, yAxis);
+		classAverageChart.setHorizontalGridLinesVisible(false);
+		classAverageChart.setVerticalGridLinesVisible(false);
+		classAverageChart.setLegendVisible(false);
+		classAverageChart.setAnimated(false);
+		classAverageChart.lookup(".chart-plot-background").setStyle("-fx-background-color: transparent;");
+		classAverageChart.setTranslateX(34);
+		classAverageChart.setTranslateY(-23);
+		XYChart.Series<Number, Number> classLabAverage = this.getClassLabLine();
+		XYChart.Series<Number, Number> classProjectAverage = this.getClassProjectLine();
+		XYChart.Series<Number, Number> classTestAverage = this.getClassTestLine();
+		XYChart.Series<Number, Number> classOverallAverage = this.getClassOverallLine();
+		XYChart.Series<Number, Number> classWeightedAverage = this.getClassWeightedLine();
+		classAverageChart.getData().add(classLabAverage);
+		classAverageChart.getData().add(classProjectAverage);
+		classAverageChart.getData().add(classTestAverage);
+		classAverageChart.getData().add(classOverallAverage);
+		classAverageChart.getData().add(classWeightedAverage);
+		return classAverageChart;
+	}
+	
+	private XYChart.Series<Number, Number> getClassLabLine() {
+		XYChart.Series<Number, Number> classLabAverage = new XYChart.Series<Number, Number>();
+		XYChart.Data<Number, Number> labLineData = new XYChart.Data<Number, Number>(0, 0);
+		Line labLine = new Line();
+		labLine.setStartX(0);
+		labLine.setEndX(0);
+		labLine.endXProperty().bind(this.widthProperty().multiply(2));
+		labLine.setVisible(false);
+		labLine.setStroke(Color.rgb(227, 83, 18));
+		labLineData.setNode(labLine);
+		
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				labLine.setVisible(true);
+				labLineData.setYValue(GradeBookPane.this.theClassroom.getClassLabAverage());
+			}
+		});
+		
+		classLabAverage.getData().add(labLineData);
+		return classLabAverage;
+	}
+	
+	private XYChart.Series<Number, Number> getClassProjectLine() {
+		XYChart.Series<Number, Number> classProjectAverage = new XYChart.Series<Number, Number>();
+		XYChart.Data<Number, Number> projectLineData = new XYChart.Data<Number, Number>(0, 0);
+		Line projectLine = new Line();
+		projectLine.setStartX(0);
+		projectLine.setEndX(0);
+		projectLine.endXProperty().bind(this.widthProperty().multiply(2));
+		projectLine.setVisible(false);
+		projectLine.setStroke(Color.rgb(241, 153, 0));
+		projectLineData.setNode(projectLine);
+		
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				projectLine.setVisible(true);
+				projectLineData.setYValue(GradeBookPane.this.theClassroom.getClassProjectAverage());
+			}
+		});
+		
+		classProjectAverage.getData().add(projectLineData);
+		return classProjectAverage;
+	}
+	
+	private XYChart.Series<Number, Number> getClassTestLine() {
+		XYChart.Series<Number, Number> classTestAverage = new XYChart.Series<Number, Number>();
+		XYChart.Data<Number, Number> testLineData = new XYChart.Data<Number, Number>(0, 0);
+		Line testLine = new Line();
+		testLine.setStartX(0);
+		testLine.setEndX(0);
+		testLine.endXProperty().bind(this.widthProperty().multiply(2));
+		testLine.setVisible(false);
+		testLine.setStroke(Color.rgb(78, 170, 57));
+		testLineData.setNode(testLine);
+		
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				testLine.setVisible(true);
+				testLineData.setYValue(GradeBookPane.this.theClassroom.getClassTestAverage());
+			}
+		});
+		
+		classTestAverage.getData().add(testLineData);
+		return classTestAverage;
+	}
+
+	private XYChart.Series<Number, Number> getClassOverallLine() {
+		XYChart.Series<Number, Number> classOverallAverage = new XYChart.Series<Number, Number>();
+		XYChart.Data<Number, Number> overallLineData = new XYChart.Data<Number, Number>(0, 0);
+		Line overallLine = new Line();
+		overallLine.setStartX(0);
+		overallLine.setEndX(0);
+		overallLine.endXProperty().bind(this.widthProperty().multiply(2));
+		overallLine.setVisible(false);
+		overallLine.setStroke(Color.rgb(78, 170, 57));
+		overallLineData.setNode(overallLine);
+		
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				overallLine.setVisible(true);
+				overallLineData.setYValue(GradeBookPane.this.theClassroom.getClassOverallAverage());
+			}
+		});
+		
+		classOverallAverage.getData().add(overallLineData);
+		return classOverallAverage;
+	}
+
+	private XYChart.Series<Number, Number> getClassWeightedLine() {
+		XYChart.Series<Number, Number> classWeightedAverage = new XYChart.Series<Number, Number>();
+		XYChart.Data<Number, Number> weightedLineData = new XYChart.Data<Number, Number>(0, 0);
+		Line weightedLine = new Line();
+		weightedLine.setStartX(0);
+		weightedLine.setEndX(0);
+		weightedLine.endXProperty().bind(this.widthProperty().multiply(2));
+		weightedLine.setVisible(false);
+		weightedLine.setStroke(Color.rgb(78, 170, 57));
+		weightedLineData.setNode(weightedLine);
+		
+		this.studentRoster.addListener(new ListChangeListener<Student>() {
+			@Override
+			public void onChanged(Change<? extends Student> newList) {
+				weightedLine.setVisible(true);
+				weightedLineData.setYValue(GradeBookPane.this.theClassroom.getClassWeightedAverage());
+			}
+		});
+		
+		classWeightedAverage.getData().add(weightedLineData);
+		return classWeightedAverage;
+	}
+	
+	private StackPane setGraphOveralayPane() {
+		StackPane graphPane = new StackPane();
+		graphPane.getChildren().addAll(this.setStudentAverageGraph(), this.setClassAverageGraph());
+		return graphPane;
 	}
 	
 	private VBox showStudentAverages() {
