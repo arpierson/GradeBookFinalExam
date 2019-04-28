@@ -9,7 +9,9 @@ import java.util.Scanner;
 
 import edu.westga.cs6312.gradebook.model.ClassroomData;
 import edu.westga.cs6312.gradebook.model.Student;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -55,6 +57,11 @@ public class GradeBookPane extends Pane {
 	private FileReader theFileReader;
 	private ObjectProperty<Student> currentStudentProperty;
 	private ObservableList<Student> studentRoster;
+	private DoubleProperty classLabAverageProperty;
+	private DoubleProperty classProjectAverageProperty;
+	private DoubleProperty classTestAverageProperty;
+	private DoubleProperty classOverallAverageProperty;
+	private DoubleProperty classWeightedAverageProperty;
 	
 	/**
 	 * 0-parameter constructor to instantiate the instance variable
@@ -64,6 +71,11 @@ public class GradeBookPane extends Pane {
 		this.theFileReader = new FileReader();
 		this.currentStudentProperty = new SimpleObjectProperty<Student>(this.theClassroom.getCurrentStudent());
 		this.studentRoster = FXCollections.observableList(this.theClassroom.getStudentList());
+		this.classLabAverageProperty = new SimpleDoubleProperty();
+		this.classProjectAverageProperty = new SimpleDoubleProperty();
+		this.classTestAverageProperty = new SimpleDoubleProperty();
+		this.classOverallAverageProperty = new SimpleDoubleProperty();
+		this.classWeightedAverageProperty = new SimpleDoubleProperty();
 		this.setPaneSize();
 		this.setPaneLayout();
 	}
@@ -346,17 +358,17 @@ public class GradeBookPane extends Pane {
 		labLine.setStroke(Color.rgb(227, 83, 18));
 		labLineData.setNode(labLine);
 		
-		this.studentRoster.addListener(new ListChangeListener<Student>() {
-			@Override
-			public void onChanged(Change<? extends Student> newList) {
-				try {
+		this.classLabAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	try {
 					labLine.setVisible(true);
-					labLineData.setYValue(GradeBookPane.this.theClassroom.getClassLabAverage());
+					labLineData.setYValue((double) newValue);
 				} catch (IllegalArgumentException iae) {
 					labLineData.setYValue(0);
 				}
-			}
-		});
+        	}
+        });
 		
 		classLabAverage.getData().add(labLineData);
 		return classLabAverage;
@@ -373,17 +385,17 @@ public class GradeBookPane extends Pane {
 		projectLine.setStroke(Color.rgb(241, 153, 0));
 		projectLineData.setNode(projectLine);
 		
-		this.studentRoster.addListener(new ListChangeListener<Student>() {
-			@Override
-			public void onChanged(Change<? extends Student> newList) {
-				try {
-					projectLine.setVisible(true);
-					projectLineData.setYValue(GradeBookPane.this.theClassroom.getClassProjectAverage());
+		this.classProjectAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	try {
+            		projectLine.setVisible(true);
+            		projectLineData.setYValue((double) newValue);
 				} catch (IllegalArgumentException iae) {
 					projectLineData.setYValue(0);
 				}
-			}
-		});
+        	}
+        });
 		
 		classProjectAverage.getData().add(projectLineData);
 		return classProjectAverage;
@@ -400,17 +412,17 @@ public class GradeBookPane extends Pane {
 		testLine.setStroke(Color.rgb(78, 170, 57));
 		testLineData.setNode(testLine);
 		
-		this.studentRoster.addListener(new ListChangeListener<Student>() {
-			@Override
-			public void onChanged(Change<? extends Student> newList) {
-				try {
+		this.classTestAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	try {
 					testLine.setVisible(true);
-					testLineData.setYValue(GradeBookPane.this.theClassroom.getClassTestAverage());
+					testLineData.setYValue((double) newValue);
 				} catch (IllegalArgumentException iae) {
 					testLineData.setYValue(0);
 				}
-			}
-		});
+        	}
+        });
 		
 		classTestAverage.getData().add(testLineData);
 		return classTestAverage;
@@ -427,17 +439,17 @@ public class GradeBookPane extends Pane {
 		overallLine.setStroke(Color.rgb(78, 170, 57));
 		overallLineData.setNode(overallLine);
 		
-		this.studentRoster.addListener(new ListChangeListener<Student>() {
-			@Override
-			public void onChanged(Change<? extends Student> newList) {
-				try {
+		this.classOverallAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	try {
 					overallLine.setVisible(true);
-					overallLineData.setYValue(GradeBookPane.this.theClassroom.getClassOverallAverage());
+					overallLineData.setYValue((double) newValue);
 				} catch (IllegalArgumentException iae) {
 					overallLineData.setYValue(0);
 				}
-			}
-		});
+        	}
+        });
 		
 		classOverallAverage.getData().add(overallLineData);
 		return classOverallAverage;
@@ -454,17 +466,17 @@ public class GradeBookPane extends Pane {
 		weightedLine.setStroke(Color.rgb(78, 170, 57));
 		weightedLineData.setNode(weightedLine);
 		
-		this.studentRoster.addListener(new ListChangeListener<Student>() {
-			@Override
-			public void onChanged(Change<? extends Student> newList) {
-				try {
+		this.classWeightedAverageProperty.addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue, Object newValue) {
+            	try {
 					weightedLine.setVisible(true);
-					weightedLineData.setYValue(GradeBookPane.this.theClassroom.getClassWeightedAverage());
+					weightedLineData.setYValue((double) newValue);
 				} catch (IllegalArgumentException iae) {
 					weightedLineData.setYValue(0);
 				}
-			}
-		});
+        	}
+        });
 		
 		classWeightedAverage.getData().add(weightedLineData);
 		return classWeightedAverage;
@@ -639,7 +651,7 @@ public class GradeBookPane extends Pane {
 				this.readStudentData(theFile);
 			}  catch (InputMismatchException | IndexOutOfBoundsException | IllegalArgumentException exception) {
 				Alert alert = new Alert(AlertType.WARNING);
-				alert.setContentText("Data Format error on line 1" + exception.getMessage());
+				alert.setContentText("Data Format error: " + exception.getMessage());
 				alert.showAndWait();
 			} catch (FileNotFoundException | NoSuchElementException | NullPointerException exception) {
 				Alert alert = new Alert(AlertType.ERROR);
@@ -670,6 +682,7 @@ public class GradeBookPane extends Pane {
 			for (int current = 0; current < GradeBookPane.this.theClassroom.getStudentList().size(); current++) {
 				GradeBookPane.this.studentRoster.set(current, GradeBookPane.this.theClassroom.getStudentList().get(current));
 			}
+			this.setClassroomProperties();
 		}
 		
 		private void readStudentGrades(File theFile) throws FileNotFoundException {
@@ -701,6 +714,14 @@ public class GradeBookPane extends Pane {
 				}
 			}
 			Collections.sort(GradeBookPane.this.theClassroom.getStudentList());
+		}
+
+		private void setClassroomProperties() {
+			GradeBookPane.this.classLabAverageProperty.set(GradeBookPane.this.theClassroom.getClassLabAverage());
+			GradeBookPane.this.classProjectAverageProperty.set(GradeBookPane.this.theClassroom.getClassProjectAverage());
+			GradeBookPane.this.classTestAverageProperty.set(GradeBookPane.this.theClassroom.getClassTestAverage());
+			GradeBookPane.this.classOverallAverageProperty.set(GradeBookPane.this.theClassroom.getClassOverallAverage());
+			GradeBookPane.this.classWeightedAverageProperty.set(GradeBookPane.this.theClassroom.getClassWeightedAverage());
 		}
 	}
 }
