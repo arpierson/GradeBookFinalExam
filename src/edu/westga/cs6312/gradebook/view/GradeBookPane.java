@@ -436,7 +436,7 @@ public class GradeBookPane extends Pane {
 		overallLine.setEndX(0);
 		overallLine.endXProperty().bind(this.widthProperty().multiply(2));
 		overallLine.setVisible(false);
-		overallLine.setStroke(Color.rgb(78, 170, 57));
+		overallLine.setStroke(Color.rgb(65, 168, 200));
 		overallLineData.setNode(overallLine);
 		
 		this.classOverallAverageProperty.addListener(new ChangeListener<Object>() {
@@ -463,7 +463,7 @@ public class GradeBookPane extends Pane {
 		weightedLine.setEndX(0);
 		weightedLine.endXProperty().bind(this.widthProperty().multiply(2));
 		weightedLine.setVisible(false);
-		weightedLine.setStroke(Color.rgb(78, 170, 57));
+		weightedLine.setStroke(Color.rgb(65, 87, 199));
 		weightedLineData.setNode(weightedLine);
 		
 		this.classWeightedAverageProperty.addListener(new ChangeListener<Object>() {
