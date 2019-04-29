@@ -20,7 +20,7 @@ class ClassroomDataWhenSetAndGetCurrentStudent {
 		ClassroomData testClassroom = new ClassroomData();
 		testClassroom.setCurrentStudent(new Student(1234, "Allen", "Pierson"));
 		String result = testClassroom.getCurrentStudent().toString();
-		assertEquals("1234 Allen Pierson", result);
+		assertEquals("Pierson, Allen 1234", result);
 	}
 
 	@Test
@@ -28,6 +28,6 @@ class ClassroomDataWhenSetAndGetCurrentStudent {
 		ClassroomData testClassroom = new ClassroomData();
 		testClassroom.setCurrentStudent(new Student(2222, "Ray", "Charles"));
 		String result = testClassroom.getCurrentStudent().toString();
-		assertEquals("2222 Ray Charles", result);
+		assertEquals("Charles, Ray 2222", result);
 	}
 }

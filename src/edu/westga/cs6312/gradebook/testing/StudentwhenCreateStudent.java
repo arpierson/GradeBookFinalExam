@@ -18,14 +18,14 @@ class StudentwhenCreateStudent {
 	void testWhenStudentIs1234AllenPierson() {
 		Student testStudent = new Student(1234, "Allen", "Pierson");
 		String result = testStudent.toString();
-		assertEquals("1234 Allen Pierson", result);
+		assertEquals("Pierson, Allen 1234", result);
 	}
 	
 	@Test
 	void testWhenStudentis4321MauriceMoss() {
 		Student testStudent = new Student(4321, "Maurice", "Moss");
 		String result = testStudent.toString();
-		assertEquals("4321 Maurice Moss", result);
+		assertEquals("Moss, Maurice 4321", result);
 	}
 
 }
